@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\include">
+      <UniqueIdentifier>{64c6aef7-4765-4236-9a9d-b44a1ade193e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{3c442b5c-b2e7-4cd5-8595-f8623a8d99e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\shadowMap">
+      <UniqueIdentifier>{0e750c62-1e84-4b46-a3ff-9451f7fb25f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\mary">
+      <UniqueIdentifier>{b3d473da-ef57-4788-abbd-43b1969b3f37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\floor">
+      <UniqueIdentifier>{d1ee2f53-c264-4235-8343-89125fd37f10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\bilinPhong">
+      <UniqueIdentifier>{4546252a-c616-4c29-b3fb-5bc6244a2a4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\textureShader">
+      <UniqueIdentifier>{0cb0d5c9-4932-4293-a2fa-9355bcd2dce7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="glad.c">
+      <Filter>头文件\include</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformBlock.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stb_image.h">
+      <Filter>头文件\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformBlock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shadowMapVertexShader.glsl">
+      <Filter>Shader\shadowMap</Filter>
+    </None>
+    <None Include="maryVertexShader.glsl">
+      <Filter>Shader\mary</Filter>
+    </None>
+    <None Include="maryFragmentShader.glsl">
+      <Filter>Shader\mary</Filter>
+    </None>
+    <None Include="shadowMapFragmentShader.glsl">
+      <Filter>Shader\shadowMap</Filter>
+    </None>
+    <None Include="floorVertexShader.glsl">
+      <Filter>Shader\floor</Filter>
+    </None>
+    <None Include="floorFragmentShader.glsl">
+      <Filter>Shader\floor</Filter>
+    </None>
+    <None Include="bilingPhongVertexShader.glsl">
+      <Filter>Shader\bilinPhong</Filter>
+    </None>
+    <None Include="bilingPhongFragmentShader.glsl">
+      <Filter>Shader\bilinPhong</Filter>
+    </None>
+    <None Include="textureVertexShader.glsl">
+      <Filter>Shader\textureShader</Filter>
+    </None>
+    <None Include="textureFragmentShader.glsl">
+      <Filter>Shader\textureShader</Filter>
+    </None>
+  </ItemGroup>
+</Project>
