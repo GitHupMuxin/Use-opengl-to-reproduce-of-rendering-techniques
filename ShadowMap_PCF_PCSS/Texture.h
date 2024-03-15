@@ -2,6 +2,8 @@
 #include <GLAD/glad/glad.h>
 #include <iostream>
 #include <vector>
+#include "Vertex.h"
+#include "Shader.h"
 
 class Texture2D
 {
@@ -20,4 +22,21 @@ public:
 	Texture2D(const GLint& Width, const GLint& Height, const GLenum& format = GL_RGB);
 };
 
+class ModelTexture : public Texture2D
+{
+public:
+	std::string type;
+	std::string path;
+};
+
+class TextureRenderModel
+{
+	std::vector<Vertex> verteices;
+	std::vector<GLuint> indeices;
+public:	
+	GLuint VAO, VBO, EBO;
+	Shader shader;
+	TextureRenderModel();
+	void Draw(const Texture2D& texture);
+};
 

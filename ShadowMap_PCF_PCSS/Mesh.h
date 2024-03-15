@@ -8,19 +8,7 @@
 #include <vector>
 #include "Shader.h"
 #include "Texture.h"
-
-struct Vertex
-{
-	glm::vec3 Position;
-	glm::vec3 Normal;
-	glm::vec2 TexCoord;
-};
-class ModelTexture : public Texture2D
-{
-public:
-	std::string type;
-	std::string path;
-};
+#include "Vertex.h"
 
 class Mesh
 {

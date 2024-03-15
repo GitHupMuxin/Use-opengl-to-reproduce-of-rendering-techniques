@@ -5,6 +5,8 @@ layout (location = 2) in vec2 aTexCoord;
 
 layout (std140) uniform LightScene
 {
+	vec3 LightIntansity;
+	vec3 LightPos;
 	mat4 LightView;
 	mat4 LightProjection;
 };

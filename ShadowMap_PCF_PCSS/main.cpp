@@ -43,25 +43,28 @@ int main()
 	}
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	//glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	camera.init(window);
 
 
 	Scene scene;
 
 	UniformBlock cameraUniformBlock(2.0f * sizeof(glm::mat4x4) + sizeof(glm::vec4));
-	cameraUniformBlock.insert(camera.position);
-	cameraUniformBlock.insert(camera.getViewMat4());
-	glm::mat4x4 cameraProjection = glm::perspective(glm::radians(camera.fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
-	cameraUniformBlock.insert(cameraProjection);
 
-	//FrameBuffer shadowMapBuffer;
-	//Texture2D shadowMapTexture(SHADOWMAP_WIDTH, SHADOWMAP_HEIGHT, GL_RGBA);
-	//shadowMapTexture.Parameteri(GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//shadowMapTexture.Parameteri(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//shadowMapBuffer.BindTexture(shadowMapTexture);
-	//shadowMapBuffer.bufferStorage(SHADOWMAP_WIDTH, SHADOWMAP_HEIGHT);
-	//Shader shadowMapShader("shadowMapVertexShader.glsl", "shadowMapFragmentShader.glsl");
+
+
+
+	FrameBuffer shadowMapBuffer;
+	Texture2D shadowMapTexture(SHADOWMAP_WIDTH, SHADOWMAP_HEIGHT, GL_RGBA);
+	shadowMapTexture.Parameteri(GL_TEXTURE_WRAP_S, GL_REPEAT);
+	shadowMapTexture.Parameteri(GL_TEXTURE_WRAP_T, GL_REPEAT);
+	shadowMapBuffer.BindTexture(shadowMapTexture);
+	shadowMapBuffer.bufferStorage(SHADOWMAP_WIDTH, SHADOWMAP_HEIGHT);
+	Shader shadowMapShader("shadowMapVertexShader.glsl", "shadowMapFragmentShader.glsl");
+
+
+
+	TextureRenderModel textureRenderModel;
 
 	Shader bilingPhongShader("bilingPhongVertexShader.glsl", "bilingPhongFragmentShader.glsl");
 	Shader textureShader("textureVertexShader.glsl", "textureFragmentShader.glsl");
@@ -89,21 +92,18 @@ int main()
 	pointLight.projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.01f, 100.0f);
 
 	UniformBlock pointLightBlock(2.0f * sizeof(glm::mat4x4) + 2 * sizeof(glm::vec4));
-
 	pointLightBlock.insert(pointLight.lightIntansity);
 	pointLightBlock.insert(pointLight.position);
 	pointLightBlock.insert(pointLight.view);
 	pointLightBlock.insert(pointLight.projection);
 
-	
+	pointLightBlock.bindingUniformBlock(shadowMapShader, "LightScene");
 	pointLightBlock.bindingUniformBlock(mary.modelShader, "LightScene");
 	pointLightBlock.bindingUniformBlock(floor.modelShader, "LightScene");
 	pointLightBlock.bindingUniformBlock(bilingPhongShader, "LightScene");
 	cameraUniformBlock.bindingUniformBlock(mary.modelShader, "Scene");
 	cameraUniformBlock.bindingUniformBlock(floor.modelShader, "Scene");
 	cameraUniformBlock.bindingUniformBlock(bilingPhongShader, "Scene");
-
-	glm::mat4 projection = glm::mat4(1.0f);
 
 	glm::mat4x4 model;
 	floor.modelShader.use();
@@ -120,23 +120,21 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
 		glm::mat4x4 view = camera.getViewMat4();
-		projection = glm::perspective(glm::radians(camera.fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+		glm::mat4x4 projection = glm::perspective(glm::radians(camera.fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+
 		cameraUniformBlock.insert(camera.position, 0);
 		cameraUniformBlock.insert(view, sizeof(glm::vec4));
 		cameraUniformBlock.insert(projection, sizeof(glm::vec4) + sizeof(glm::mat4x4));
 
-		//shadowMapBuffer.use();
-		//shadowMapShader.use();
-		//shadowMapShader.setMat4("model", floor.modelMat);
-		//floor.model.Draw(shadowMapShader);
+		shadowMapBuffer.use();
+		shadowMapShader.use();
+		shadowMapShader.setMat4("model", floor.modelMat);
+		floor.model.Draw(shadowMapShader);
 
-		//shadowMapShader.use();
-		//shadowMapShader.setMat4("model", mary.modelMat);
-		//mary.model.Draw(shadowMapShader);
+		shadowMapShader.use();
+		shadowMapShader.setMat4("model", mary.modelMat);
+		mary.model.Draw(shadowMapShader);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -144,7 +142,9 @@ int main()
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 		
-		scene.Draw();
+		textureRenderModel.Draw(shadowMapTexture);
+
+		//scene.Draw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

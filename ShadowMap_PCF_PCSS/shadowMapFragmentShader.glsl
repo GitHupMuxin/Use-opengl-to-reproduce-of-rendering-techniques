@@ -12,6 +12,12 @@ vec4 pack(float depth)
 	return rgbaDepth;
 }
 
+float unPack(vec4 rgbaDepth)
+{
+	const vec4 bitShift = vec4(1.0f, 1.0f / 256.0f, 1.0f / (256.0f * 256.0f), 1.0f / (256.0f * 256.0f * 256.0f));
+	return dot(rgbaDepth, bitShift);
+}
+
 void main()
 {
 	FragColor = pack(gl_FragCoord.z);

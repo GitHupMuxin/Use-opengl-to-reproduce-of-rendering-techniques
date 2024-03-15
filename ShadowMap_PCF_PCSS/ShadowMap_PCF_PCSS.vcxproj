@@ -159,6 +159,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tool.cpp" />
     <ClCompile Include="UniformBlock.cpp" />
+    <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tool.h" />
     <ClInclude Include="UniformBlock.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bilingPhongFragmentShader.glsl" />

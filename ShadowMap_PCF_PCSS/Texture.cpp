@@ -87,3 +87,61 @@ void Texture2D::unUse() const
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+TextureRenderModel::TextureRenderModel()
+{
+	this->verteices.resize(4);
+	verteices[0].Position = glm::vec3(-1.0f, 1.0f, 0.0f);
+	verteices[0].Normal = glm::vec3(0.0f, 0.0f, 1.0f);
+	verteices[0].TexCoord = glm::vec2(0.0f, 1.0f);
+
+	verteices[1].Position = glm::vec3(1.0f, 1.0f, 0.0f);
+	verteices[1].Normal = glm::vec3(0.0f, 0.0f, 1.0f);
+	verteices[1].TexCoord = glm::vec2(1.0f, 1.0f);
+
+	verteices[2].Position = glm::vec3(-1.0f, -1.0f, 0.0f);
+	verteices[2].Normal = glm::vec3(0.0f, 0.0f, 1.0f);
+	verteices[2].TexCoord = glm::vec2(0.0f, 0.0f);
+
+	verteices[3].Position = glm::vec3(1.0f, -1.0f, 0.0f);
+	verteices[3].Normal = glm::vec3(0.0f, 0.0f, 1.0f);
+	verteices[3].TexCoord = glm::vec2(1.0f, 0.0f);
+
+	this->indeices = { 0, 1, 2, 1, 2, 3 };
+
+	glGenVertexArrays(1, &this->VAO);
+	glGenBuffers(1, &this->VBO);
+	glGenBuffers(1, &this->EBO);
+
+	glBindVertexArray(this->VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+	
+	glBufferData(GL_ARRAY_BUFFER, this->verteices.size() * sizeof(Vertex), &(this->verteices[0]), GL_STATIC_DRAW);
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indeices.size() * sizeof(GLuint), &(this->indeices[0]), GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoord));
+
+	glBindVertexArray(0);
+
+	this->shader.init("textureVertexShader.glsl", "textureFragmentShader.glsl");
+}
+
+void TextureRenderModel::Draw(const Texture2D& texture)
+{
+	this->shader.use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture.id);
+	this->shader.setInt("texture_diffuse", 0);
+	glBindVertexArray(this->VAO);
+	glDrawElements(GL_TRIANGLES, this->indeices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}

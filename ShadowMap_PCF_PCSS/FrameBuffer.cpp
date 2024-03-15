@@ -23,7 +23,6 @@ void FrameBuffer::use()
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
-	this->unBinding();
 }
 
 void FrameBuffer::bufferStorage(const GLint& width, const GLint& height, const GLenum& e) 
