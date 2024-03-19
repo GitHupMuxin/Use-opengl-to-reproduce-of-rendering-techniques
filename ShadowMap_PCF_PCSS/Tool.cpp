@@ -16,7 +16,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	{
 		GLfloat deletaX = xpos - camera.lastX;
 		GLfloat deletaY = ypos - camera.lastY;
-		float mutiple = 0.001f;
+		float mutiple = 0.002f;
 		camera.position += deletaY * camera.up * mutiple;
 		camera.position += deletaX * camera.left * mutiple;
 		camera.traget += deletaY * camera.up * mutiple;

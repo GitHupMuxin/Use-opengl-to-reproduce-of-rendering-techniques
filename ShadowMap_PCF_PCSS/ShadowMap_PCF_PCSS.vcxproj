@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="environmentBox.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Light.cpp" />
@@ -163,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="environmentBox.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Mesh.h" />
@@ -178,10 +180,14 @@
   <ItemGroup>
     <None Include="bilingPhongFragmentShader.glsl" />
     <None Include="bilingPhongVertexShader.glsl" />
+    <None Include="environmentBoxFragmentShader.glsl" />
+    <None Include="environmentBoxVertexShader.glsl" />
     <None Include="floorFragmentShader.glsl" />
     <None Include="floorVertexShader.glsl" />
     <None Include="maryFragmentShader.glsl" />
     <None Include="maryVertexShader.glsl" />
+    <None Include="pointLightFragmentShader.glsl" />
+    <None Include="pointLightVertexShader.glsl" />
     <None Include="shadowMapFragmentShader.glsl" />
     <None Include="shadowMapVertexShader.glsl" />
     <None Include="textureFragmentShader.glsl" />

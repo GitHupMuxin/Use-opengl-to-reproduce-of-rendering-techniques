@@ -34,6 +34,12 @@
     <Filter Include="Shader\textureShader">
       <UniqueIdentifier>{0cb0d5c9-4932-4293-a2fa-9355bcd2dce7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\pointLightShader">
+      <UniqueIdentifier>{c2120377-187c-4f81-b11e-b69fe731c9ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\environmentBoxShader">
+      <UniqueIdentifier>{30391473-77eb-4a66-97a7-af7a0620dbcd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
@@ -75,6 +81,9 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="environmentBox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
@@ -113,6 +122,9 @@
     <ClInclude Include="Vertex.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="environmentBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shadowMapVertexShader.glsl">
@@ -144,6 +156,18 @@
     </None>
     <None Include="textureFragmentShader.glsl">
       <Filter>Shader\textureShader</Filter>
+    </None>
+    <None Include="pointLightVertexShader.glsl">
+      <Filter>Shader\pointLightShader</Filter>
+    </None>
+    <None Include="pointLightFragmentShader.glsl">
+      <Filter>Shader\pointLightShader</Filter>
+    </None>
+    <None Include="environmentBoxVertexShader.glsl">
+      <Filter>Shader\environmentBoxShader</Filter>
+    </None>
+    <None Include="environmentBoxFragmentShader.glsl">
+      <Filter>Shader\environmentBoxShader</Filter>
     </None>
   </ItemGroup>
 </Project>
