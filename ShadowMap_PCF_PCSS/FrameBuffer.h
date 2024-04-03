@@ -4,20 +4,29 @@
 
 class FrameBuffer
 {
-private:
+protected:
 	GLuint width, height;
 public:
 	GLuint fbo;
 	GLuint rbo;
 
-	FrameBuffer();
-	
+	FrameBuffer();	
+	void use();
 	void binding();
 	void unBinding();
-	void use();
-	void bufferStorage(const GLint& width, const GLint& height, const GLenum& e = GL_DEPTH24_STENCIL8);
-	void BindTexture(const Texture2D& texture, const GLenum& e = GL_COLOR_ATTACHMENT0);
-	void check();
+	virtual void bufferStorage(const GLint& width, const GLint& height, const GLenum& e = GL_DEPTH32F_STENCIL8);
+	virtual void BindTexture2D(const Texture2D& texture, const GLuint& level = 0, const GLenum& e = GL_COLOR_ATTACHMENT0);
+	virtual void check();
 
-	~FrameBuffer();
+	virtual ~FrameBuffer();
+};
+
+class FrameBufferMSAA : public FrameBuffer
+{
+protected:
+	GLint samples;
+public:
+	FrameBufferMSAA(GLint T);
+	void bufferStorage(const GLint& width, const GLint& height, const GLenum& e = GL_DEPTH32F_STENCIL8);
+	void BindTexture2D(const Texture2DMultisample& texture, const GLuint& level = 0, const GLenum& e = GL_COLOR_ATTACHMENT0);
 };

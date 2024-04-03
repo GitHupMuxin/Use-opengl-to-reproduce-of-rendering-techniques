@@ -3,49 +3,64 @@
 
 Texture2D::Texture2D() 
 {
-	this->id = 0;
-}
-
-Texture2D::Texture2D(const GLchar* path)
-{
-	this->init(path);
-}
-
-Texture2D::Texture2D(const GLint& Width, const GLint& Height, const GLenum& format) : width(Width), height(Height)
-{
-	this->init(format);
-}
-
-void Texture2D::init(const GLenum& format)
-{
-
 	glGenTextures(1, &this->id);
+}
+
+Texture2D::Texture2D(const GLuint& ID) : id(ID) { }
+
+Texture2D::Texture2D(const GLchar* path, const GLenum& e)
+{
+	glGenTextures(1, &this->id);
+
+	this->init(path, e);
+}
+
+Texture2D::Texture2D(const GLint& Width, const GLint& Height, const GLenum& Fromat, const GLenum& saveFromat, const GLenum& saveType) : width(Width), height(Height), format(Fromat)
+{
+	glGenTextures(1, &this->id);
+
+	this->init(format, saveFromat, saveType);
+}
+
+void Texture2D::init(const GLenum& format, const GLenum& saveFromat, const GLenum& saveType)
+{
 	glBindTexture(GL_TEXTURE_2D, this->id);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, format, this->width, this->height, 0, format, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, this->width, this->height, 0, saveFromat, saveType, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Texture2D::init(const GLchar* path)
+void Texture2D::init(const GLchar* path, const GLenum& e)
 {
-	glGenTextures(1, &this->id);
-	GLint width, height, nrComponents;
-	GLubyte* data = stbi_load(path, &width, &height, &nrComponents, 0);
+	GLint nr = 0;
+	GLubyte* data = stbi_load(path, &this->width, &this->height, &nr, 0);
 	if (data)
 	{
-		GLenum format;
-		if (nrComponents == 1)
-			format = GL_RED;
-		else if (nrComponents == 3)
-			format = GL_RGB;
-		else if (nrComponents)
-			format = GL_RGBA;
+		this->format = GL_RED;
+		if (nr == 1)
+			this->format = GL_RED;
+		else if (nr == 3)
+			this->format = GL_RGB;
+		else if (nr == 4)
+			this->format = GL_RGBA;
 
 		glBindTexture(GL_TEXTURE_2D, this->id);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		if (e == GL_SRGB)
+			glTexImage2D(GL_TEXTURE_2D, 0, e, this->width, this->height, 0, this->format, GL_UNSIGNED_BYTE, data);
+		else
+		{
+			this->format = GL_RED;
+			if (nr == 1)
+				this->format = GL_RED;
+			else if (nr == 3)
+				this->format = GL_RGB;
+			else if (nr == 4)
+				this->format = GL_RGBA;
+			glTexImage2D(GL_TEXTURE_2D, 0, this->format, this->width, this->height, 0, this->format, GL_UNSIGNED_BYTE, data);
+		}
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -61,6 +76,13 @@ void Texture2D::init(const GLchar* path)
 		stbi_image_free(data);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Texture2D::generateMipmap()
+{
+	this->use();
+	glGenerateMipmap(GL_TEXTURE_2D);
+	this->unUse();
 }
 
 void Texture2D::Parameteri(const GLenum& target, const GLenum& value)
@@ -88,7 +110,7 @@ void Texture2D::unUse() const
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-TextureRenderModel::TextureRenderModel()
+ScreenRenderModel::ScreenRenderModel()
 {
 	this->verteices.resize(4);
 	verteices[0].Position = glm::vec3(-1.0f, 1.0f, 0.0f);
@@ -131,17 +153,66 @@ TextureRenderModel::TextureRenderModel()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoord));
 
 	glBindVertexArray(0);
-
-	this->shader.init("textureVertexShader.glsl", "textureFragmentShader.glsl");
 }
 
-void TextureRenderModel::Draw(const Texture2D& texture)
+void ScreenRenderModel::Draw(const Texture2D& texture, const Shader& shader)
 {
+	this->shader = shader;
 	this->shader.use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture.id);
-	this->shader.setInt("texture_diffuse", 0);
+	this->shader.setInt("level", 0);
+	this->shader.setInt("Texture", 0);
 	glBindVertexArray(this->VAO);
 	glDrawElements(GL_TRIANGLES, this->indeices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+}
+
+void ScreenRenderModel::Draw(const Texture2D& texture, const GLint& level, const Shader& shader)
+{
+	this->shader = shader;
+	this->shader.use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture.id);
+	this->shader.setInt("level", level);
+	this->shader.setInt("Texture", 0);
+	glBindVertexArray(this->VAO);
+	glDrawElements(GL_TRIANGLES, this->indeices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
+void ScreenRenderModel::Draw(const Shader& shader)
+{
+	this->shader = shader;
+	this->shader.use();
+	glBindVertexArray(this->VAO);
+	glDrawElements(GL_TRIANGLES, this->indeices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
+Texture2DMultisample::Texture2DMultisample(const GLint& Width, const GLint& Height, const GLint& Samples, const GLenum& Fromat) : Texture2D()
+{ 
+	this->width = Width;
+	this->height = Height;
+	this->format = Fromat;
+	this->samples = Samples;
+	glGenTextures(1, &this->id);
+	this->init();
+}
+
+void Texture2DMultisample::init()
+{
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, this->id);
+	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, this->samples, this->format, this->width, this->height, GL_TRUE);
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
+}
+
+void Texture2DMultisample::use() const
+{
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, this->id);
+}
+
+void Texture2DMultisample::unUse() const
+{
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
 }

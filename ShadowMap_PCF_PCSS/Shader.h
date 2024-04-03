@@ -16,7 +16,7 @@ public:
 	Shader();
 	Shader(const GLchar* vertexShaderPath, const GLchar* fragmentShaderPath, const GLchar* geometryShaderPath = "");
 	void init(const GLchar* vertexShaderPath, const GLchar* fragmentShaderPath, const GLchar* geometryShaderPath = "");
-	void use();
+	void use() const;
 	void setBool(const std::string& name, const bool& value) const;
 	void setInt(const std::string& name, const int& value) const;
 	void setFloat(const std::string& name, const float& value) const;

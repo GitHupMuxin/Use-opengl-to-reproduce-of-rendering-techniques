@@ -152,13 +152,16 @@
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="loadObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tool.cpp" />
+    <ClCompile Include="objectMesh.cpp" />
     <ClCompile Include="UniformBlock.cpp" />
     <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
@@ -167,8 +170,12 @@
     <ClInclude Include="environmentBox.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="loadObject.h" />
+    <ClInclude Include="material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="object.h" />
+    <ClInclude Include="objectMesh.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
@@ -178,8 +185,11 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bilingPhongFragmentShader.glsl" />
-    <None Include="bilingPhongVertexShader.glsl" />
+    <None Include="blinnPhongFragmentShader.glsl" />
+    <None Include="blinnPhongVertexShader.glsl" />
+    <None Include="cpp.hint" />
+    <None Include="enterMaxDepthFragmentShader.glsl" />
+    <None Include="enterMaxDepthVertexShader.glsl" />
     <None Include="environmentBoxFragmentShader.glsl" />
     <None Include="environmentBoxVertexShader.glsl" />
     <None Include="floorFragmentShader.glsl" />
@@ -190,6 +200,16 @@
     <None Include="pointLightVertexShader.glsl" />
     <None Include="shadowMapFragmentShader.glsl" />
     <None Include="shadowMapVertexShader.glsl" />
+    <None Include="SHFloorFragmentShader.glsl" />
+    <None Include="SHFloorVertexShader.glsl" />
+    <None Include="SHMaryFragmentShader.glsl" />
+    <None Include="SHMaryVertexShader.glsl" />
+    <None Include="SSRTFragmentShader.glsl" />
+    <None Include="SSRTGenLevelMapFragmentShader.glsl" />
+    <None Include="SSRTGenLevelMapVertexShader.glsl" />
+    <None Include="SSRTMipmapFragmentShader.glsl" />
+    <None Include="SSRTMipmapVertexShader.glsl" />
+    <None Include="SSRTVertexShader.glsl" />
     <None Include="textureFragmentShader.glsl" />
     <None Include="textureVertexShader.glsl" />
   </ItemGroup>

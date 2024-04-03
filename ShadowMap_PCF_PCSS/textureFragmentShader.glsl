@@ -2,7 +2,8 @@
 
 in vec2 texCoord;
 
-uniform sampler2D texture_diffuse;
+uniform sampler2D Texture;
+uniform int level;
 
 out vec4 FragColor;
 
@@ -14,6 +15,10 @@ float unPack(vec4 rgbaDepth)
 
 void main()
 {
-	FragColor = vec4(vec3(unPack(texture(texture_diffuse, texCoord))), 1.0f);
+	ivec2 currentCoord = ivec2(gl_FragCoord.xy);
+	currentCoord = currentCoord >> level;
+	//FragColor = vec4(pow(unPack(texelFetch(Texture, currentCoord, level)), 64));
+	FragColor = vec4(texelFetch(Texture, currentCoord, level).r);
+	//FragColor =	vec4(unPack(texelFetch(Texture, currentCoord, level)));;
 }
 
