@@ -28,9 +28,6 @@
     <Filter Include="Shader\floor">
       <UniqueIdentifier>{d1ee2f53-c264-4235-8343-89125fd37f10}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader\bilinPhong">
-      <UniqueIdentifier>{4546252a-c616-4c29-b3fb-5bc6244a2a4d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shader\textureShader">
       <UniqueIdentifier>{0cb0d5c9-4932-4293-a2fa-9355bcd2dce7}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,30 @@
     </Filter>
     <Filter Include="Shader\environmentBoxShader">
       <UniqueIdentifier>{30391473-77eb-4a66-97a7-af7a0620dbcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{dca3a20a-5bbf-4526-84ba-a0bd9b5668e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\SHFloorShader">
+      <UniqueIdentifier>{b70b75fe-fe70-4e45-b71b-a2f8f24d5013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\SHMaryShader">
+      <UniqueIdentifier>{f4711113-b2fb-4f88-b33f-6c2bcf6e62ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\blinnPhong">
+      <UniqueIdentifier>{4546252a-c616-4c29-b3fb-5bc6244a2a4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\SSRTMipmapShader">
+      <UniqueIdentifier>{e2bddda8-f382-4fe0-adc8-29f1eb5026de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\processingTexture">
+      <UniqueIdentifier>{8b0bebd6-997e-4073-8e00-7ba9867050c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\SSRTMipmapShader\SSRT">
+      <UniqueIdentifier>{9d39e070-a04e-4d12-bc34-e556fd405dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\SSRTMipmapShader\gBufferGenShader">
+      <UniqueIdentifier>{44001fe5-3ca2-44c8-a853-26c6895c05a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +105,15 @@
     <ClCompile Include="environmentBox.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="material.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="loadObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="objectMesh.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
@@ -125,6 +155,18 @@
     <ClInclude Include="environmentBox.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="loadObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="material.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="objectMesh.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shadowMapVertexShader.glsl">
@@ -145,11 +187,11 @@
     <None Include="floorFragmentShader.glsl">
       <Filter>Shader\floor</Filter>
     </None>
-    <None Include="bilingPhongVertexShader.glsl">
-      <Filter>Shader\bilinPhong</Filter>
+    <None Include="blinnPhongVertexShader.glsl">
+      <Filter>Shader\blinnPhong</Filter>
     </None>
-    <None Include="bilingPhongFragmentShader.glsl">
-      <Filter>Shader\bilinPhong</Filter>
+    <None Include="blinnPhongFragmentShader.glsl">
+      <Filter>Shader\blinnPhong</Filter>
     </None>
     <None Include="textureVertexShader.glsl">
       <Filter>Shader\textureShader</Filter>
@@ -168,6 +210,43 @@
     </None>
     <None Include="environmentBoxFragmentShader.glsl">
       <Filter>Shader\environmentBoxShader</Filter>
+    </None>
+    <None Include="SHMaryVertexShader.glsl">
+      <Filter>Shader\SHMaryShader</Filter>
+    </None>
+    <None Include="SHMaryFragmentShader.glsl">
+      <Filter>Shader\SHMaryShader</Filter>
+    </None>
+    <None Include="SHFloorFragmentShader.glsl">
+      <Filter>Shader\SHFloorShader</Filter>
+    </None>
+    <None Include="SHFloorVertexShader.glsl">
+      <Filter>Shader\SHFloorShader</Filter>
+    </None>
+    <None Include="cpp.hint" />
+    <None Include="enterMaxDepthVertexShader.glsl">
+      <Filter>Shader\processingTexture</Filter>
+    </None>
+    <None Include="enterMaxDepthFragmentShader.glsl">
+      <Filter>Shader\processingTexture</Filter>
+    </None>
+    <None Include="SSRTVertexShader.glsl">
+      <Filter>Shader\SSRTMipmapShader\SSRT</Filter>
+    </None>
+    <None Include="SSRTFragmentShader.glsl">
+      <Filter>Shader\SSRTMipmapShader\SSRT</Filter>
+    </None>
+    <None Include="SSRTMipmapVertexShader.glsl">
+      <Filter>Shader\SSRTMipmapShader\gBufferGenShader</Filter>
+    </None>
+    <None Include="SSRTMipmapFragmentShader.glsl">
+      <Filter>Shader\SSRTMipmapShader\gBufferGenShader</Filter>
+    </None>
+    <None Include="SSRTGenLevelMapVertexShader.glsl">
+      <Filter>Shader\SSRTMipmapShader\gBufferGenShader</Filter>
+    </None>
+    <None Include="SSRTGenLevelMapFragmentShader.glsl">
+      <Filter>Shader\SSRTMipmapShader\gBufferGenShader</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -35,7 +35,8 @@ void main()
 {
 	gl_Position = projection * view * model * vec4(aPos, 1.0f);
 	vsOut.FragPosLightSpace = LightProjection * LightView * model * vec4(aPos, 1.0f);
-	vsOut.FragPos = vec3(model * vec4(aPos, 1.0f));
+	vec4 FragPos = model * vec4(aPos, 1.0f);
+	vsOut.FragPos = FragPos.xyz / FragPos.w;
 	vsOut.Normal = (transpose(inverse(model)) * vec4(aNormal, 0.0f)).xyz;
 	vsOut.cameraPos = cameraPosition;
 	vsOut.LightPos = LightPosition;

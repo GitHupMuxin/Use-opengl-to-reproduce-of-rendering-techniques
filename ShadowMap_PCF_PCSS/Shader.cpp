@@ -113,7 +113,7 @@ Shader::Shader(const GLchar* vertexShaderPath, const GLchar* fragmentShaderPath,
 	init(vertexShaderPath, fragmentShaderPath, geometryShaderPath);
 }
 
-void Shader::use()
+void Shader::use() const
 {
 	glUseProgram(this->id);
 }

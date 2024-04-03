@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <regex>
 #include "environmentBox.h"
 #include "stb_image.h"
 
@@ -62,7 +65,7 @@ EnvironmentBox::EnvironmentBox()
 	this->shader.init("environmentBoxVertexShader.glsl", "environmentBoxFragmentShader.glsl");
 }
 
-void EnvironmentBox::bindTexture(std::vector<std::string> faces)
+void EnvironmentBox::bindTexture(const std::vector<std::string>& faces)
 {
 	glGenTextures(1, &this->textureID);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, this->textureID);
@@ -89,6 +92,18 @@ void EnvironmentBox::bindTexture(std::vector<std::string> faces)
 	}
 }
 
+void EnvironmentBox::bindTexture(const std::string& path)
+{
+	std::vector<std::string> faces(6);
+	faces[0] = path + "/posx";
+	faces[1] = path + "/negx";
+	faces[2] = path + "/posy";
+	faces[3] = path + "/negy";
+	faces[4] = path + "/posz";
+	faces[5] = path + "/negz";
+	this->bindTexture(faces);
+}
+
 void EnvironmentBox::Draw()
 {
 	glDepthFunc(GL_LEQUAL);
@@ -100,4 +115,38 @@ void EnvironmentBox::Draw()
 	glDrawArrays(GL_TRIANGLES, 0, this->vertices.size() / 3);
 	glBindVertexArray(0);
 	glDepthFunc(GL_LESS);
+}
+
+void EnvironmentBoxWithSphericalHarmonics::loadLightCoeffs(const std::string& fileName)
+{
+	std::string coeffs = "";
+	std::ifstream coeffsFile;
+	coeffsFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	try
+	{
+		std::stringstream coeffsStream;
+		coeffsFile.open(fileName.c_str());
+		coeffsStream << coeffsFile.rdbuf();
+		coeffsFile.close();
+		coeffs = coeffsStream.str();
+	}
+	catch (std::ifstream::failure e)
+	{
+		std::cout << "LightCoeffs load fail." << std::endl;
+	}
+	std::regex re("[\\s]");
+	std::vector<std::string> result{ std::sregex_token_iterator(coeffs.begin(), coeffs.end(), re, -1), {} };
+	for (auto& it : result)
+		this->lightCoeffs.push_back(std::stof(it));
+	this->SHOrder = sqrt(this->lightCoeffs.size()) - 1;
+}
+
+EnvironmentBoxWithSphericalHarmonics::EnvironmentBoxWithSphericalHarmonics(const std::string& fileName)
+{
+	this->loadLightCoeffs(fileName);
+}
+
+std::vector<GLfloat>& EnvironmentBoxWithSphericalHarmonics::getLightCoeffs()
+{
+	return this->lightCoeffs;
 }

@@ -13,7 +13,7 @@ Camera::Camera(const glm::vec3& Position, const glm::vec3& Traget, const glm::ve
 	this->up = glm::cross(front, this->left);
 	this->pitch = asin(this->front.y) / MY_PI * 180.0f;
 	this->yaw = asin(this->front.z / cos(glm::radians(this->pitch))) * 180.0f / MY_PI;
-	this->len = (traget - position).length();
+	this->len = glm::length(traget - position);
 }
 
 void Camera::init(GLFWwindow* window)

@@ -26,15 +26,15 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 	if (leftMouse)
 	{
-		GLfloat deletaX = xpos - camera.lastX;
+		GLfloat deletaX = camera.lastX - xpos;
 		GLfloat deletaY = camera.lastY - ypos;
 		camera.yaw += deletaX * 0.1f;
 		camera.pitch += deletaY * 0.1f;
 		camera.yaw = camera.yaw > 360.0f ? camera.yaw - 360.0f : camera.yaw < -360.0 ? camera.yaw + 360.0f : camera.yaw;
 		camera.pitch = camera.pitch > 89.0f ? 89.0f : camera.pitch < -89.0f ? -89.0f : camera.pitch;
-		GLfloat x = cos(glm::radians(camera.yaw) * cos(glm::radians(camera.pitch)));
+		GLfloat x = -cos(glm::radians(camera.yaw)) * cos(glm::radians(camera.pitch));
 		GLfloat y = sin(glm::radians(camera.pitch));
-		GLfloat z = sin(glm::radians(camera.yaw) * cos(glm::radians(camera.pitch)));
+		GLfloat z = sin(glm::radians(camera.yaw)) * cos(glm::radians(camera.pitch));
 		camera.position = camera.traget - glm::normalize(glm::vec3(x, y, z)) * camera.len;
 		camera.front = glm::normalize(glm::vec3(x, y, z));
 		camera.left = glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), camera.front);

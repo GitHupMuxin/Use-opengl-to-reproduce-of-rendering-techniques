@@ -23,7 +23,6 @@ in VS_OUT
 	vec2 texCoord;
 } fsIn;
 
-uniform vec3 lightDir;
 uniform sampler2D texture_diffuse1;
 uniform sampler2D shadowMap;
 
@@ -116,10 +115,10 @@ float findBlock(vec2 coord, float zReceiver)
 	poissonDiskSamples(coord);
 	float sum = 0.0f;
 	float count = 0.0f;
+	float depth = zReceiver + EPS;
 	for (int i = 0; i < NUM_SAMPLES; i++)
 	{
 		vec2 shadowCoord = coord + poissonDisk[i] * r;
-		float depth = zReceiver + EPS;
 		float currentDepth = unPack(texture(shadowMap, shadowCoord));
 		if (currentDepth < depth)
 		{
@@ -170,6 +169,13 @@ vec3 bilinPhongWithPCSS(vec3 lightDirection, vec3 normal, vec3 cameraDir, float 
 	return ambient + (diffuse + specular) * PCSS(lightDirection, normal);
 }
 
+vec3 toSRGB(vec3 color)
+{
+	for (int i = 0; i < 3; i++)
+		color[i] = pow(color[i], 1.0f / 2.2f);
+	return color;
+}
+
 void main()
 {
 	vec3 LightDir = fsIn.LightPos - fsIn.FragPos;
@@ -178,7 +184,7 @@ void main()
 	vec3 normal = normalize(fsIn.Normal);
 	vec3 cameraDir = normalize(fsIn.cameraPos - fsIn.FragPos);
 	vec3 color = bilinPhongWithPCSS(LightDir, normal, cameraDir, r2);
-	FragColor = vec4(color, 1.0f);
+	FragColor = vec4(toSRGB(color), 1.0f);
 }
 
 
