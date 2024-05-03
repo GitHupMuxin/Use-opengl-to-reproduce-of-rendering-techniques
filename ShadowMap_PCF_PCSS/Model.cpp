@@ -94,9 +94,9 @@ Mesh* Model::processMesh(const aiMesh* mesh, const aiScene* scene)
 
 		material->Get(AI_MATKEY_COLOR_AMBIENT, color);
 		ka = glm::vec3(color.r, color.g, color.b);
-		material->Get(AI_MATKEY_COLOR_AMBIENT, color);
+		material->Get(AI_MATKEY_COLOR_DIFFUSE, color);
 		kd = glm::vec3(color.r, color.g, color.b);
-		material->Get(AI_MATKEY_COLOR_AMBIENT, color);
+		material->Get(AI_MATKEY_COLOR_SPECULAR, color);
 		ks = glm::vec3(color.r, color.g, color.b);
 	}
 

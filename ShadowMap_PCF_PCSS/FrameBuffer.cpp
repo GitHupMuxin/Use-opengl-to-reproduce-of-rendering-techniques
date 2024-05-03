@@ -59,6 +59,15 @@ void FrameBuffer::BindTexture2D(const Texture2D& texture, const GLuint& level, c
 	this->unBinding();
 }
 
+void FrameBuffer::BindTexture(const GLuint& textureID, const GLenum& textureType, const GLuint& level, const GLenum& e)
+{
+	this->binding();
+	glBindTexture(textureType, textureID);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, e, textureType, textureID, level);
+	glBindTexture(textureType, 0);
+	this->unBinding();
+}
+
 void FrameBuffer::check()
 {
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)

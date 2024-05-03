@@ -11,7 +11,7 @@ public:
 	GLuint id;
 	GLint width, height;
 	GLenum format;
-	void init(const GLchar* path, const GLenum& e = GL_RGB);
+	void init(const GLchar* path, const GLenum& e);
 	void generateMipmap();
 	virtual void init(const GLenum& format, const GLenum& saveFromat = GL_RGBA, const GLenum& saveType = GL_UNSIGNED_BYTE);
 	virtual void Parameteri(const GLenum& target, const GLenum& value);
@@ -21,8 +21,27 @@ public:
 
 	Texture2D();
 	Texture2D(const GLuint& ID);
-	Texture2D(const GLchar* path, const GLenum& e);
+	Texture2D(const GLchar* path, const GLenum& e = GL_RGB);
 	Texture2D(const GLint& Width, const GLint& Height, const GLenum& Fromat = GL_RGB, const GLenum& saveFromat = GL_RGBA, const GLenum& saveType = GL_UNSIGNED_BYTE);
+};
+
+class CubeTexture
+{
+public:
+	GLuint id;
+	GLint width, height;
+	GLenum format;
+	void init(const std::vector<std::string>& faces, const GLenum& e);
+	void generateMipmap();
+	virtual void init(const GLenum& format, const GLenum& saveFromat = GL_RGBA, const GLenum& saveType = GL_UNSIGNED_BYTE);
+	virtual void Parameteri(const GLenum& target, const GLenum& value);
+	virtual void use() const;
+	virtual	void unUse() const;
+
+	CubeTexture();
+	CubeTexture(const GLuint& ID);
+	CubeTexture(const std::vector<std::string>& faces, const GLenum& e = GL_RGB);
+	CubeTexture(const GLint& Width, const GLint& Height, const GLenum& Fromat = GL_RGB, const GLenum& saveFromat = GL_RGBA, const GLenum& saveType = GL_UNSIGNED_BYTE);
 };
 
 class Texture2DMultisample : public Texture2D

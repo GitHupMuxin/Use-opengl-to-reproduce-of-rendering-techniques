@@ -35,6 +35,7 @@ void Texture2D::init(const GLenum& format, const GLenum& saveFromat, const GLenu
 
 void Texture2D::init(const GLchar* path, const GLenum& e)
 {
+	this->use();
 	GLint nr = 0;
 	GLubyte* data = stbi_load(path, &this->width, &this->height, &nr, 0);
 	if (data)
@@ -109,6 +110,113 @@ void Texture2D::unUse() const
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+void CubeTexture::init(const std::vector<std::string>& faces, const GLenum& e)
+{
+	this->use();
+	if (faces.size() != 6)
+	{
+		std::cout << "Face size less than 6 " << std::endl;
+		return;
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		GLint nr = 0;
+		GLubyte* data = stbi_load(faces[i].c_str(), &this->width, &this->height, &nr, 0);
+		if (data)
+		{
+			this->format = GL_RED;
+			if (nr == 1)
+				this->format = GL_RED;
+			else if (nr == 3)
+				this->format = GL_RGB;
+			else if (nr == 4)
+				this->format = GL_RGBA;
+
+			glBindTexture(GL_TEXTURE_2D, this->id);
+			if (e == GL_SRGB)
+				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, e, this->width, this->height, 0, this->format, GL_FLOAT, data);
+			else
+			{
+				this->format = GL_RED;
+				if (nr == 1)
+					this->format = GL_RED;
+				else if (nr == 3)
+					this->format = GL_RGB;
+				else if (nr == 4)
+					this->format = GL_RGBA;
+				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, this->format, this->width, this->height, 0, this->format, GL_FLOAT, data);
+			}
+
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			stbi_image_free(data);
+		}
+		else
+		{
+			std::cout << "Texture failed to load at path: " << faces[i] << std::endl;
+			stbi_image_free(data);
+		}
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void CubeTexture::generateMipmap()
+{
+	this->use();
+	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+	this->unUse();
+}
+
+void CubeTexture::init(const GLenum& format, const GLenum& saveFromat, const GLenum& saveType)
+{
+	this->use();
+	for (GLuint i = 0; i < 6; i++)
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, this->width, this->height, 0, saveFromat, saveType, nullptr);
+}
+
+void CubeTexture::Parameteri(const GLenum& target, const GLenum& value)
+{
+	this->use();
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, target, value);
+	this->unUse();
+}
+
+void CubeTexture::use() const
+{
+	glBindTexture(GL_TEXTURE_CUBE_MAP, this->id);
+}
+
+void CubeTexture::unUse() const
+{
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+}
+
+CubeTexture::CubeTexture()
+{
+	glGenTextures(1, &this->id);
+}
+
+CubeTexture::CubeTexture(const GLuint& ID)
+{
+	this->id = ID;
+}
+
+CubeTexture::CubeTexture(const std::vector<std::string>& faces, const GLenum& e)
+{
+	glGenTextures(1, &this->id);
+	this->init(faces, e);
+}
+
+CubeTexture::CubeTexture(const GLint& Width, const GLint& Height, const GLenum& Fromat, const GLenum& saveFromat, const GLenum& saveType) : width(Width), height(Height)
+{
+	glGenTextures(1, &this->id);
+	this->init(Fromat, saveFromat, saveType);
+}
+
 
 ScreenRenderModel::ScreenRenderModel()
 {
@@ -216,3 +324,5 @@ void Texture2DMultisample::unUse() const
 {
 	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
 }
+
+

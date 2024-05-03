@@ -5,7 +5,7 @@
 #include "environmentBox.h"
 #include "stb_image.h"
 
-EnvironmentBox::EnvironmentBox()
+BOXModel::BOXModel()
 {
 	glGenVertexArrays(1, &this->VAO);
 	glGenBuffers(1, &this->VBO);
@@ -24,34 +24,34 @@ EnvironmentBox::EnvironmentBox()
 	   -1.0f,  1.0f, -1.0f,
 	   -1.0f,  1.0f,  1.0f,
 	   -1.0f, -1.0f,  1.0f,
- 
- 	    1.0f, -1.0f, -1.0f,
-	    1.0f, -1.0f,  1.0f,
-	    1.0f,  1.0f,  1.0f,
-	    1.0f,  1.0f,  1.0f,
-	    1.0f,  1.0f, -1.0f,
-	    1.0f, -1.0f, -1.0f,
+
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
 
 	   -1.0f, -1.0f,  1.0f,
 	   -1.0f,  1.0f,  1.0f,
-	    1.0f,  1.0f,  1.0f,
-	    1.0f,  1.0f,  1.0f,
-	    1.0f, -1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f, -1.0f,  1.0f,
 	   -1.0f, -1.0f,  1.0f,
 
 	   -1.0f,  1.0f, -1.0f,
-	    1.0f,  1.0f, -1.0f,
-	    1.0f,  1.0f,  1.0f,
-	    1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
 	   -1.0f,  1.0f,  1.0f,
 	   -1.0f,  1.0f, -1.0f,
 
 	   -1.0f, -1.0f, -1.0f,
 	   -1.0f, -1.0f,  1.0f,
-	    1.0f, -1.0f, -1.0f,
-	    1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
 	   -1.0f, -1.0f,  1.0f,
-	    1.0f, -1.0f,  1.0f
+		1.0f, -1.0f,  1.0f
 	};
 
 	glBindVertexArray(this->VAO);
@@ -61,8 +61,42 @@ EnvironmentBox::EnvironmentBox()
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, (void*)0);
+	glBindVertexArray(0);
+}	
 
+void BOXModel::Draw(const GLuint textureID, const Shader& shader, GLint lob)
+{
+	glDepthFunc(GL_LEQUAL);
+	shader.use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+	shader.setInt("skyBox", 0);
+	shader.setInt("uTextureLob", lob);
+	glBindVertexArray(this->VAO);
+	glDrawArrays(GL_TRIANGLES, 0, this->vertices.size() / 3);
+	glBindVertexArray(0);
+	glDepthFunc(GL_LESS);
+}
+
+void BOXModel::render()
+{
+	glDepthFunc(GL_LEQUAL);
+	glBindVertexArray(this->VAO);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
+	glDepthFunc(GL_LESS);
+}
+
+EnvironmentBox::EnvironmentBox()
+{
 	this->shader.init("environmentBoxVertexShader.glsl", "environmentBoxFragmentShader.glsl");
+}
+
+void EnvironmentBox::generateMipmap()
+{
+	glBindTexture(GL_TEXTURE_CUBE_MAP, this->textureID);
+	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 }
 
 void EnvironmentBox::bindTexture(const std::vector<std::string>& faces)
@@ -83,13 +117,12 @@ void EnvironmentBox::bindTexture(const std::vector<std::string>& faces)
 			std::cout << "cube texture failed to load at path " << faces[i] << std::endl;
 			stbi_image_free(data);
 		}
-
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 void EnvironmentBox::bindTexture(const std::string& path)
@@ -104,15 +137,16 @@ void EnvironmentBox::bindTexture(const std::string& path)
 	this->bindTexture(faces);
 }
 
-void EnvironmentBox::Draw()
+void EnvironmentBox::Draw(int textureLob)
 {
 	glDepthFunc(GL_LEQUAL);
 	this->shader.use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, this->textureID);
 	this->shader.setInt("skyBox", 0);
-	glBindVertexArray(this->VAO);
-	glDrawArrays(GL_TRIANGLES, 0, this->vertices.size() / 3);
+	this->shader.setInt("uTextureLob", textureLob);
+	glBindVertexArray(this->model.VAO);
+	glDrawArrays(GL_TRIANGLES, 0, this->model.getVertices().size() / 3);
 	glBindVertexArray(0);
 	glDepthFunc(GL_LESS);
 }

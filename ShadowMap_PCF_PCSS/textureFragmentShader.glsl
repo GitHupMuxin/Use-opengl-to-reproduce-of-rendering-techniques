@@ -1,4 +1,4 @@
-#version 330 core
+#version 450 core
 
 in vec2 texCoord;
 
@@ -18,7 +18,8 @@ void main()
 	ivec2 currentCoord = ivec2(gl_FragCoord.xy);
 	currentCoord = currentCoord >> level;
 	//FragColor = vec4(pow(unPack(texelFetch(Texture, currentCoord, level)), 64));
-	FragColor = vec4(texelFetch(Texture, currentCoord, level).r);
+	//FragColor = vec4(pow(texelFetch(Texture, currentCoord, level).r, 64));
+	FragColor = vec4(textureLod(Texture, texCoord, level)); 
 	//FragColor =	vec4(unPack(texelFetch(Texture, currentCoord, level)));;
 }
 

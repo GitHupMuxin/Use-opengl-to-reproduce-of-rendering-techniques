@@ -73,3 +73,8 @@ void scroll_callback(GLFWwindow* window, double xpos, double ypos)
 	camera.fov = camera.fov <= 1.0f ? 1.0f : camera.fov >= 45.0f ? 45.0f : camera.fov;
 }
 
+void processInput(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+}
