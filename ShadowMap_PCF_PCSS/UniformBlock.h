@@ -20,6 +20,9 @@ private:
 	GLuint offset;
 public:
 	UniformBlock(GLint Size);
+	void insert(const GLfloat data);
+	void insert(const GLfloat data, const GLuint& offset);
+
 	void insert(const glm::vec2& data);
 	void insert(const glm::vec2& data, const GLuint& offset);
 

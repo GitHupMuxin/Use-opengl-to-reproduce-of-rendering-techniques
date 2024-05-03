@@ -187,6 +187,12 @@
   <ItemGroup>
     <None Include="blinnPhongFragmentShader.glsl" />
     <None Include="blinnPhongVertexShader.glsl" />
+    <None Include="hdrMapToSkyboxFragmentShader.glsl" />
+    <None Include="hdrMapToSkyboxVertexShader.glsl" />
+    <None Include="IBLIrradianceFragmentShader.glsl" />
+    <None Include="IBLIrradianceVertexShader.glsl" />
+    <None Include="cookTorranceFragmentShader.glsl" />
+    <None Include="cookTorranceVertexShader.glsl" />
     <None Include="cpp.hint" />
     <None Include="enterMaxDepthFragmentShader.glsl" />
     <None Include="enterMaxDepthVertexShader.glsl" />
@@ -194,10 +200,24 @@
     <None Include="environmentBoxVertexShader.glsl" />
     <None Include="floorFragmentShader.glsl" />
     <None Include="floorVertexShader.glsl" />
+    <None Include="ballFragmentShader.glsl" />
+    <None Include="ballVertexShader.glsl" />
+    <None Include="IBLCookTorranceFragmentShader.glsl" />
+    <None Include="IBLCookTorranceVertexShader.glsl" />
+    <None Include="IBLKullaContyFragmentShader.glsl" />
+    <None Include="IBLKullaContyVertexShader.glsl" />
+    <None Include="kullaContyFragmentShader.glsl" />
+    <None Include="kullaContyVertexShader.glsl" />
+    <None Include="LUTFragmentShader.glsl" />
+    <None Include="LUTVertexShader.glsl" />
     <None Include="maryFragmentShader.glsl" />
     <None Include="maryVertexShader.glsl" />
+    <None Include="pbrFragmentShader.glsl" />
+    <None Include="pbrVertexShader.glsl" />
     <None Include="pointLightFragmentShader.glsl" />
     <None Include="pointLightVertexShader.glsl" />
+    <None Include="prefilterFragmentShader.glsl" />
+    <None Include="prefilterVertexShader.glsl" />
     <None Include="shadowMapFragmentShader.glsl" />
     <None Include="shadowMapVertexShader.glsl" />
     <None Include="SHFloorFragmentShader.glsl" />

@@ -11,6 +11,37 @@ UniformBlock::UniformBlock(GLint Size) : size(Size), offset(0), index(UniformBlo
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
+void UniformBlock::insert(const GLfloat data)
+{
+	if (sizeof(GLfloat) + this->offset > this->size)
+	{
+		std::cout << "ERROR::UNIFORM_BLOCK : data to big." << std::endl;
+		return;
+	}
+
+	GLuint step = sizeof(GLfloat);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, this->uniformBlock);
+	glBufferSubData(GL_UNIFORM_BUFFER, this->offset, step, &data);
+	this->offset += step;
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void UniformBlock::insert(const GLfloat data, const GLuint& offset)
+{
+	if (sizeof(GLfloat) + offset > this->size)
+	{
+		std::cout << "ERROR::UNIFORM_BLOCK : data to big." << std::endl;
+		return;
+	}
+
+	GLuint step = sizeof(GLfloat);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, this->uniformBlock);
+	glBufferSubData(GL_UNIFORM_BUFFER, offset, step, &data);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
 void UniformBlock::insert(const glm::vec2& data)
 {
 	if (sizeof(glm::vec2) + this->offset > this->size)

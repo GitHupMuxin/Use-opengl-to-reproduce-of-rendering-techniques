@@ -8,12 +8,15 @@ layout (std140) uniform Scene
 	vec3 cameraPos;
 	mat4 view;
 	mat4 projection;
+	float nearPlane;
+	float farPlane;
 };
 
 uniform mat4 model;
 
 out vec3 normal;
 out vec4 wordPos;
+out vec4 viewSpacePos;
 out vec2 texCoord;
 out float depth;
 
@@ -24,5 +27,6 @@ void main()
 	normal = (transpose(inverse(model)) * vec4(aNormal, 0.0f)).xyz;
 	texCoord = aTexCoord;
 	wordPos = model * vec4(aPos, 1.0f);
+	viewSpacePos = view * model * vec4(aPos, 1.0f);
 	depth = gl_Position.w;
 }

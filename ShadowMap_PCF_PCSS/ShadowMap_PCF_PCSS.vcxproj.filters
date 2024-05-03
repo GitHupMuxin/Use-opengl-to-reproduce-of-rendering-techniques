@@ -61,6 +61,33 @@
     <Filter Include="Shader\SSRTMipmapShader\gBufferGenShader">
       <UniqueIdentifier>{44001fe5-3ca2-44c8-a853-26c6895c05a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\ball">
+      <UniqueIdentifier>{4b798210-5641-4688-be84-8141020b4268}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\kullaContyShader">
+      <UniqueIdentifier>{ca43699b-e0d1-4bf5-bb3b-ea59b6b2989c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\pbrShader">
+      <UniqueIdentifier>{37dfec50-2e92-4073-a647-c21fcfd68841}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\cookTorranceShader">
+      <UniqueIdentifier>{b27863c5-7d3b-4c80-a675-0e9ea2b7e4ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\prt">
+      <UniqueIdentifier>{762c5c15-fc84-4766-a103-05716c3fbfd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\IBL">
+      <UniqueIdentifier>{c2dd0be6-109d-487b-a58d-43fd9fa3262d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\IBLIrradiance">
+      <UniqueIdentifier>{0f589149-f92e-46f2-ae29-2b52fbe019c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\prefilterShader">
+      <UniqueIdentifier>{0f7152c2-03e8-4236-b31f-26ba120be9ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\hdrMapToSkybox">
+      <UniqueIdentifier>{8eca5c55-75cf-4c04-aa6a-3b6ae951c506}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
@@ -247,6 +274,66 @@
     </None>
     <None Include="SSRTGenLevelMapFragmentShader.glsl">
       <Filter>Shader\SSRTMipmapShader\gBufferGenShader</Filter>
+    </None>
+    <None Include="ballVertexShader.glsl">
+      <Filter>Shader\ball</Filter>
+    </None>
+    <None Include="ballFragmentShader.glsl">
+      <Filter>Shader\ball</Filter>
+    </None>
+    <None Include="kullaContyVertexShader.glsl">
+      <Filter>Shader\kullaContyShader</Filter>
+    </None>
+    <None Include="kullaContyFragmentShader.glsl">
+      <Filter>Shader\kullaContyShader</Filter>
+    </None>
+    <None Include="pbrVertexShader.glsl">
+      <Filter>Shader\pbrShader</Filter>
+    </None>
+    <None Include="pbrFragmentShader.glsl">
+      <Filter>Shader\pbrShader</Filter>
+    </None>
+    <None Include="cookTorranceFragmentShader.glsl">
+      <Filter>Shader\cookTorranceShader</Filter>
+    </None>
+    <None Include="cookTorranceVertexShader.glsl">
+      <Filter>Shader\cookTorranceShader</Filter>
+    </None>
+    <None Include="LUTVertexShader.glsl">
+      <Filter>Shader\prt</Filter>
+    </None>
+    <None Include="LUTFragmentShader.glsl">
+      <Filter>Shader\prt</Filter>
+    </None>
+    <None Include="IBLCookTorranceVertexShader.glsl">
+      <Filter>Shader\IBL</Filter>
+    </None>
+    <None Include="IBLCookTorranceFragmentShader.glsl">
+      <Filter>Shader\IBL</Filter>
+    </None>
+    <None Include="IBLIrradianceVertexShader.glsl">
+      <Filter>Shader\IBLIrradiance</Filter>
+    </None>
+    <None Include="IBLIrradianceFragmentShader.glsl">
+      <Filter>Shader\IBLIrradiance</Filter>
+    </None>
+    <None Include="prefilterVertexShader.glsl">
+      <Filter>Shader\prefilterShader</Filter>
+    </None>
+    <None Include="prefilterFragmentShader.glsl">
+      <Filter>Shader\prefilterShader</Filter>
+    </None>
+    <None Include="IBLKullaContyVertexShader.glsl">
+      <Filter>Shader\IBL</Filter>
+    </None>
+    <None Include="IBLKullaContyFragmentShader.glsl">
+      <Filter>Shader\IBL</Filter>
+    </None>
+    <None Include="hdrMapToSkyboxVertexShader.glsl">
+      <Filter>Shader\hdrMapToSkybox</Filter>
+    </None>
+    <None Include="hdrMapToSkyboxFragmentShader.glsl">
+      <Filter>Shader\hdrMapToSkybox</Filter>
     </None>
   </ItemGroup>
 </Project>
