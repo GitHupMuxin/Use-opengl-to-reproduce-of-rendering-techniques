@@ -1,5 +1,4 @@
-介绍
-运行依赖的外部库 opengl, assimp, glfw, glad, stb_image.h（即learn opengl 里面使用的外部链接库）。
+运行需要依赖的外部库 opengl, assimp, glfw, glad, stb_image.h（即learn opengl 里面使用的外部链接库）。
 
 下面是对整个项目的介绍
 
