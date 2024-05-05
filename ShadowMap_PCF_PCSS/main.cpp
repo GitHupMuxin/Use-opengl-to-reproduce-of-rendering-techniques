@@ -708,7 +708,6 @@ int main()
 		enviromentBox.Draw();
 		//boxModel.Draw(hdrBox, skyboxShader, 0);
 		
-
 		//scene.Draw();
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, MSAA4X4FrameBuffer.fbo);
