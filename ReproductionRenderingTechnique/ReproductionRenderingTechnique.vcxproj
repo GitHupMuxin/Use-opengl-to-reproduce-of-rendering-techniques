@@ -24,6 +24,7 @@
     <ProjectGuid>{0648dd55-516c-40d3-9aed-e4c8be9d5b9a}</ProjectGuid>
     <RootNamespace>ShadowMapPCFPCSS</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>ReproductionRenderingTechnique</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
