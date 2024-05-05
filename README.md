@@ -1,9 +1,8 @@
-介绍
-运行依赖的外部库 opengl, assimp, glfw, glad, stb_image.h（即learn opengl 里面使用的外部链接库）。
+运行需要依赖的外部库 opengl, assimp, glfw, glad, stb_image.h（即learn opengl 里面使用的外部链接库）。
 
 下面是对整个项目的介绍
 
-前言 这个项目主要是使用OpenGL实现了pcf pcss阴影生成，简单的球斜函数(sh)的使用，屏幕空间的反射(ssr/ssrt)，以及一些基于物理的渲染(pbr)，实现了Cook-Torrance模型和Kulla-Conty模型，使用LUT加速方式，IBL等环境光等等。
+前言，这个项目主要是使用OpenGL实现了pcf pcss阴影生成，简单的球斜函数(sh)的使用，屏幕空间的反射(ssr/ssrt)，以及一些基于物理的渲染(pbr)，实现了Cook-Torrance模型和Kulla-Conty模型，使用LUT加速方式，IBL等环境光等等。
 
 本人在写这个项目的时候并不是很熟悉OpenGL，所以项目里面的代码封装考虑的并不是很周到，以及一些复用做的不是很好(一个shader能做完的事情硬生成了n个shader)，还有glsl也是一坨，毕竟主要以实现功能为主
 
@@ -33,8 +32,9 @@ rayMatch in 2DSpace 即在视图空间（view Space）里面实现,对步长没�
 rayMatch in world Space 即在世界空间步长自取(所以效果和性能都不太好,看具体场景具体参数)
 ![image](resultPicture/p9.png)
 
-Pbr 
-点光源 GGX NDF
+Pbr
+
+点光源 GGX NDF  
 Cook-Torrance模型 metallic = 0.0 roughness = 0.0 – 1.0
 ![image](resultPicture/p10.png)
 metallic = 0.8 roughness = 0.0 – 1.0
@@ -45,8 +45,8 @@ Kulla-Conty 模型 metallic = 0.0 roughness = 0.0 – 1.0
 ![image](resultPicture/p13.png)
 ![image](resultPicture/p14.png)
 
-IBL 加上点光源 GGX NDF
-IBL不使用HDR图片时 
+IBL 加上点光源 GGX NDF  
+IBL不使用HDR图片时  
 Cook-Torrance模型 metallic = 0.0 roughness = 0.0 – 1.0
 ![image](resultPicture/p15.png)
 Kulla-Conty 模型 metallic = 0.0 roughness = 0.0 – 1.0
@@ -54,7 +54,7 @@ Kulla-Conty 模型 metallic = 0.0 roughness = 0.0 – 1.0
 对比两种模型的效果
 ![image](resultPicture/p17.png)
 
-IBL 使用HDR图片
+IBL 使用HDR图片  
 Cook-Torrance模型 metallic = 0.0 roughness = 0.0 – 1.0
 ![image](resultPicture/p18.png)
 Kulla-Conty 模型 metallic = 0.0 roughness = 0.0 – 1.0
@@ -62,7 +62,7 @@ Kulla-Conty 模型 metallic = 0.0 roughness = 0.0 – 1.0
 对比两种模型的效果
 ![image](resultPicture/p20.png)
 
-其他HDR IBL
+其他HDR IBL  
 Cook-Torrance模型 metallic = 0.0 roughness = 0.0 – 1.0
 ![image](resultPicture/p21.png)
 Kulla-Conty 模型 metallic = 0.0 roughness = 0.0 – 1.0
