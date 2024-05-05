@@ -664,9 +664,9 @@ int main()
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, LUTTexture.id);
 			glActiveTexture(GL_TEXTURE3);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrArchesIrradianceMap);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, irradianceMap);
 			glActiveTexture(GL_TEXTURE4);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrArchesPrefilterMap);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, prefilterMap);
 			IBLCookTorranceBall[i].modelShader.setInt("shadowMap", 0);
 			IBLCookTorranceBall[i].modelShader.setInt("skyBox", 1);
 			IBLCookTorranceBall[i].modelShader.setInt("LUTTexture", 2);
@@ -689,9 +689,9 @@ int main()
 			glActiveTexture(GL_TEXTURE5);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, enviromentBox.textureID);
 			glActiveTexture(GL_TEXTURE6);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrArchesIrradianceMap);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, irradianceMap);
 			glActiveTexture(GL_TEXTURE7);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrArchesPrefilterMap);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, prefilterMap);
 			IBLKullaContyBall[i].modelShader.setInt("shadowMap", 0);
 			IBLKullaContyBall[i].modelShader.setInt("EmuIs", 1);
 			IBLKullaContyBall[i].modelShader.setInt("Eavg", 2);

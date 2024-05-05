@@ -202,19 +202,21 @@ bool rayMatch2DMy(vec3 oir, vec3 dir, vec3 oirNormal, out vec3 hitPos)
 	float dx, dy, dQ, dK; 
 	if (abs(k) < 1.0)
 	{
-		dx = 1.0;
-		dy = k * dx;
-		dQ = (Q1 - Q0) / delta.x * dx;
-		dK = (K1 - K0) / delta.x * dx;
-		Step = min(delta.x, (SCREEN_SIZE.x - P0.x));
+		Step = abs(delta.x);
+		dx = delta.x / Step;
+		dy = delta.y / Step;
+		dQ = (Q1 - Q0) / Step;
+		dK = (K1 - K0) / Step;
+		Step = min(Step, (SCREEN_SIZE.x - P0.x));
 	}
 	else
 	{
-		dy = 1.0;	
-		dx = invK * dy;
-		dQ = (Q1 - Q0) / delta.y * dy; 
-		dK = (K1 - K0) / delta.y * dy; 
-		Step = min(delta.y, (SCREEN_SIZE.y - P0.y));
+		Step = abs(delta.y);
+		dx = delta.x / Step;
+		dy = delta.y / Step;
+		dQ = (Q1 - Q0) / Step; 
+		dK = (K1 - K0) / Step; 
+		Step = min(Step, (SCREEN_SIZE.y - P0.y));
 	}
 
 	float stride = 1.0;
@@ -652,9 +654,9 @@ vec3 reflectRayMatch(vec3 wordPos, vec3 viewPos, vec3 fragNormal, out vec3 hitPo
 	vec3 dir = normalize(reflect(fragWi, fragNormal));
 	//bool hit = rayMatch(wordPos, dir, fragNormal, hitPos);
 	//bool hit = rayMatch2D(wordPos, dir, fragNormal, hitPos);
-	//bool hit = rayMatch2DMy(wordPos, dir, fragNormal, hitPos);
+	bool hit = rayMatch2DMy(wordPos, dir, fragNormal, hitPos);
 	//bool hit = rayMatch3DWithDDA(wordPos, dir, fragNormal, hitPos);
-	bool hit = rayMatch3DTextureSpace(wordPos, dir, fragNormal, hitPos);
+	//bool hit = rayMatch3DTextureSpace(wordPos, dir, fragNormal, hitPos);
 
 	//»¹Ã»Ð´ºÃ
 	//bool hit = rayMatchWitMipMap(wordPos, dir, fragNormal, hitPos);
