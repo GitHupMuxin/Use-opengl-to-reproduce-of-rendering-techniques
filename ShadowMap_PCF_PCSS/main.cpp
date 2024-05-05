@@ -406,8 +406,9 @@ int main()
 	cameraUniformBlock.insert((float)NEAR_PLANE, sizeof(glm::vec4) + 2.0 * sizeof(glm::mat4x4));
 	cameraUniformBlock.insert((float)FAR_PLANE, sizeof(glm::vec4) + 2.0 * sizeof(glm::mat4x4) + sizeof(GLfloat));
 
-	GLuint hdrBox;
+	GLuint hdrBox, rostockArchesBox;
 	generateHdrTexture("Prefab/cubemap/studioGarden/studioGarden4k.hdr", &hdrBox);
+	generateHdrTexture("Prefab/cubemap/rostockArches/rostockArches4k.hdr", &rostockArchesBox);
 
 	Texture2D hdrT("Prefab/cubemap/studioGarden/studioGarden4k.hdr");
 
@@ -416,6 +417,11 @@ int main()
 
 	GLuint hdrIrradianceMap, hdrPrefilterMap;
 	pbrPrtTexture(hdrBox, &hdrIrradianceMap, &hdrPrefilterMap);
+
+	GLuint hdrArchesIrradianceMap, hdrArchesPrefilterMap;
+	pbrPrtTexture(rostockArchesBox, &hdrArchesIrradianceMap, &hdrArchesPrefilterMap);
+
+
 
 	prtTextureFrameBuffer.use();
 	screenRenderModel.Draw(LUTShader);
@@ -478,6 +484,7 @@ int main()
 			it.getModel().Draw(shadowMapShader);
 		}
 
+		shadowMapShader.use();
 		for (auto& it : IBLKullaContyBall)
 		{
 			shadowMapShader.setMat4("model", it.modelMat);
@@ -657,9 +664,9 @@ int main()
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, LUTTexture.id);
 			glActiveTexture(GL_TEXTURE3);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrIrradianceMap);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrArchesIrradianceMap);
 			glActiveTexture(GL_TEXTURE4);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrPrefilterMap);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrArchesPrefilterMap);
 			IBLCookTorranceBall[i].modelShader.setInt("shadowMap", 0);
 			IBLCookTorranceBall[i].modelShader.setInt("skyBox", 1);
 			IBLCookTorranceBall[i].modelShader.setInt("LUTTexture", 2);
@@ -682,9 +689,9 @@ int main()
 			glActiveTexture(GL_TEXTURE5);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, enviromentBox.textureID);
 			glActiveTexture(GL_TEXTURE6);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrIrradianceMap);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrArchesIrradianceMap);
 			glActiveTexture(GL_TEXTURE7);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrPrefilterMap);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, hdrArchesPrefilterMap);
 			IBLKullaContyBall[i].modelShader.setInt("shadowMap", 0);
 			IBLKullaContyBall[i].modelShader.setInt("EmuIs", 1);
 			IBLKullaContyBall[i].modelShader.setInt("Eavg", 2);
@@ -698,8 +705,8 @@ int main()
 		}
 
 		pointLightModel.Draw();
-		//enviromentBox.Draw();
-		boxModel.Draw(hdrBox, skyboxShader, 7);
+		enviromentBox.Draw();
+		//boxModel.Draw(hdrBox, skyboxShader, 0);
 		
 
 		//scene.Draw();
@@ -712,7 +719,7 @@ int main()
 		glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//5screenRenderModel.Draw(intermediateTexture, 0, textureShader);
+		//screenRenderModel.Draw(intermediateTexture, 0, textureShader);
 
 		SSRTShader.use();
 		glActiveTexture(GL_TEXTURE0);
@@ -794,13 +801,14 @@ void pbrPrtTexture(const GLuint& IBL, GLuint* irradianceMap, GLuint* prefilterMa
 	}
 
 	Shader prefilterShader("prefilterVertexShader.glsl", "prefilterFragmentShader.glsl");
-
+	const GLuint FILTERWIDTH = 1024, FILTERHEIGHT = 1024;
+	GLuint maxMipLevels = 11;
 	GLuint& preMap = *prefilterMap;
 	glGenTextures(1, &preMap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, preMap);
 	for (GLuint i = 0; i < 6; i++)
 	{
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB32F, 128, 128, 0, GL_RGB, GL_FLOAT, nullptr);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB32F, FILTERWIDTH, FILTERHEIGHT, 0, GL_RGB, GL_FLOAT, nullptr);
 	}
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -812,11 +820,10 @@ void pbrPrtTexture(const GLuint& IBL, GLuint* irradianceMap, GLuint* prefilterMa
 	prefilterShader.use();
 	prefilterShader.setMat4("projection", captureProjection);
 
-	GLuint maxMipLevels = 5;
 	for (GLuint mipLevel = 0; mipLevel < maxMipLevels; mipLevel++)
 	{
-		GLuint mipWidth = static_cast<GLuint>(128 >> mipLevel);
-		GLuint mipHeight = static_cast<GLuint>(128 >> mipLevel);
+		GLuint mipWidth = static_cast<GLuint>(FILTERWIDTH >> mipLevel);
+		GLuint mipHeight = static_cast<GLuint>(FILTERHEIGHT >> mipLevel);
 		preComputeBuffer.bufferStorage(mipWidth, mipHeight, GL_DEPTH24_STENCIL8);
 		
 		float roughness = float(mipLevel) / float(maxMipLevels - 1);

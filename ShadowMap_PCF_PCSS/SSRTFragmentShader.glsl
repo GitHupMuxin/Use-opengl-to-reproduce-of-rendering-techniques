@@ -365,7 +365,7 @@ bool rayMatch3DWithDDA(vec3 oir, vec3 dir, vec3 oirNormal, out vec3 hitPos)
 		dx = 1.0 / SCREEN_SIZE.x;
 		dy = k * dx;
 		dz = (ssEnd.z - ssStar.z) / ssDeltaX * dx;
-		Step = ssDeltaX * SCREEN_SIZE.x;
+		Step = abs(ssDeltaX) * SCREEN_SIZE.x;
 		stepVec.x = deltaX / Step;
 		stepVec.y = deltaY / Step;
 		stepVec.z = deltaZ / Step;
@@ -376,7 +376,7 @@ bool rayMatch3DWithDDA(vec3 oir, vec3 dir, vec3 oirNormal, out vec3 hitPos)
 		dy = 1.0 / SCREEN_SIZE.y;	
 		dx = invK * dy;
 		dz = (ssEnd.z - ssStar.z) / ssDeltaY * dy; 
-		Step = ssDeltaY * SCREEN_SIZE.y;
+		Step = abs(ssDeltaY) * SCREEN_SIZE.y;
 		stepVec.x = deltaX / Step;
 		stepVec.y = deltaY / Step;
 		stepVec.z = deltaZ / Step;

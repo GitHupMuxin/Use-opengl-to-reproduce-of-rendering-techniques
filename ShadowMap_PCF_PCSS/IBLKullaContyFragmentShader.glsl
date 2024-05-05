@@ -25,7 +25,7 @@ in VS_OUT
 out vec4 FragColor;
 
 const float PI = 3.14159265359;
-const float SKYBOX_MAX_LEVLE = 4;
+const float SKYBOX_MAX_LEVLE = 10;
 
 float DistributionGGX(vec3 N, vec3 H, float roughness)
 {
