@@ -7,6 +7,5 @@
 
 本人在写这个项目的时候并不是很熟悉OpenGL，所以项目里面的代码封装考虑的并不是很周到，以及一些复用做的不是很好(一个shader能做完的事情硬生成了n个shader)，还有glsl也是一坨，毕竟主要以实现功能为主
 
-
 ![image](https://github.com/GitHupMuxin/Use-opengl-to-reproduce-of-rendering-techniques/tree/master/resultPicture/p1.png)
 
