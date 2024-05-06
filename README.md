@@ -31,6 +31,8 @@ rayMatch in 2DSpace 即在视图空间（view Space）里面实现,对步长没�
 ![image](resultPicture/p8.png)
 rayMatch in world Space 即在世界空间步长自取(所以效果和性能都不太好,看具体场景具体参数)
 ![image](resultPicture/p9.png)
+rayMatch with mipmap 使用Hi-z加速结构，在Texture space 实现反射  
+![image](resultPicture/ssrtMipmap.png)
 
 Pbr
 
