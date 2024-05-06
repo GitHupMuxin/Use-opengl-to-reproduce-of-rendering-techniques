@@ -27,7 +27,7 @@ rayMatch in 3DSpace With DAA 即在世界空间（world Space）里面实现
 ![image](resultPicture/p6.png)
 rayMatch in 2DSpace 即在视图空间（view Space）里面实现,对步长没有任何额外处理（即没有特地调里面的参数），可能步长还是太大了
 ![image](resultPicture/p7.png)
-读了论文后在view Space 一些奇奇怪怪的实现但效果很差
+读了论文后在view Space 一些奇奇怪怪的实现但效果嘛...看下图
 ![image](resultPicture/p8.png)
 rayMatch in world Space 即在世界空间步长自取(所以效果和性能都不太好,看具体场景具体参数)
 ![image](resultPicture/p9.png)
