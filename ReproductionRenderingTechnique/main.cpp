@@ -19,6 +19,9 @@
 #define SHADOWMAP_WIDTH 2048
 #define SHADOWMAP_HEIGHT 2048
 
+#define GBUFFER_WIDTH 2048
+#define GBUFFER_HEIGHT 2048
+
 #define TEXTURE_WIDTH 512
 #define TEXTURE_HEIGHT 512
 
@@ -99,7 +102,7 @@ int main()
 
 	float zeroBorder[4] = { 0.0, 0.0, 0.0, 0.0 };
 	float oneBorder[4] = { 1.0, 1.0, 1.0, 1.0 };
-	Texture2D gNormalTexture(SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGBA16F, GL_RGBA, GL_FLOAT);
+	Texture2D gNormalTexture(GBUFFER_WIDTH, GBUFFER_HEIGHT, GL_RGBA16F, GL_RGBA, GL_FLOAT);
 	gNormalTexture.Parameteri(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	gNormalTexture.Parameteri(GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, zeroBorder);
@@ -107,7 +110,7 @@ int main()
 	gNormalTexture.Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	SSRTFrameBuffer.BindTexture2D(gNormalTexture, 0, attachments[0]);
 
-	Texture2D gKdBuffer(SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGBA16F, GL_RGBA, GL_FLOAT);
+	Texture2D gKdBuffer(GBUFFER_WIDTH, GBUFFER_HEIGHT, GL_RGBA16F, GL_RGBA, GL_FLOAT);
 	gKdBuffer.Parameteri(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	gKdBuffer.Parameteri(GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, zeroBorder);
@@ -115,7 +118,7 @@ int main()
 	gKdBuffer.Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	SSRTFrameBuffer.BindTexture2D(gKdBuffer, 0, attachments[1]);
 
-	Texture2D gPosBuffer(SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGBA16F, GL_RGBA, GL_FLOAT);
+	Texture2D gPosBuffer(GBUFFER_WIDTH, GBUFFER_HEIGHT, GL_RGBA16F, GL_RGBA, GL_FLOAT);
 	gPosBuffer.Parameteri(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	gPosBuffer.Parameteri(GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, zeroBorder);
@@ -123,7 +126,7 @@ int main()
 	gPosBuffer.Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	SSRTFrameBuffer.BindTexture2D(gPosBuffer, 0, attachments[2]);
 
-	Texture2D gViewPosBuffer(SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGBA16F, GL_RGBA, GL_FLOAT);
+	Texture2D gViewPosBuffer(GBUFFER_WIDTH, GBUFFER_HEIGHT, GL_RGBA16F, GL_RGBA, GL_FLOAT);
 	gViewPosBuffer.Parameteri(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	gViewPosBuffer.Parameteri(GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, zeroBorder);
@@ -131,7 +134,7 @@ int main()
 	gViewPosBuffer.Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	SSRTFrameBuffer.BindTexture2D(gViewPosBuffer, 0, attachments[4]);
 
-	Texture2D gViewDepthBuffer(SCREEN_WIDTH, SCREEN_HEIGHT, GL_R32F, GL_RED, GL_FLOAT);
+	Texture2D gViewDepthBuffer(GBUFFER_WIDTH, GBUFFER_HEIGHT, GL_R32F, GL_RED, GL_FLOAT);
 	gViewDepthBuffer.Parameteri(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	gViewDepthBuffer.Parameteri(GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, oneBorder);
@@ -140,7 +143,7 @@ int main()
 	SSRTFrameBuffer.BindTexture2D(gViewDepthBuffer, 0, attachments[5]);
 
 	const GLuint mipMapLevel = 7;
-	Texture2D SSRTMipMapTexture(SCREEN_WIDTH, SCREEN_HEIGHT, GL_R32F, GL_RED, GL_FLOAT);
+	Texture2D SSRTMipMapTexture(GBUFFER_WIDTH, GBUFFER_HEIGHT, GL_R32F, GL_RED, GL_FLOAT);
 	SSRTMipMapTexture.Parameteri(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	SSRTMipMapTexture.Parameteri(GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, oneBorder);
@@ -149,7 +152,7 @@ int main()
 	SSRTMipMapTexture.Parameteri(GL_TEXTURE_BASE_LEVEL, 0);
 	SSRTMipMapTexture.Parameteri(GL_TEXTURE_MAX_LEVEL, mipMapLevel);
 	SSRTFrameBuffer.BindTexture2D(SSRTMipMapTexture, 0, attachments[3]);
-	SSRTFrameBuffer.bufferStorage(SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH32F_STENCIL8);
+	SSRTFrameBuffer.bufferStorage(GBUFFER_WIDTH, GBUFFER_HEIGHT, GL_DEPTH32F_STENCIL8);
 
 	FrameBuffer prtTextureFrameBuffer;
 	Texture2D LUTTexture(TEXTURE_WIDTH, TEXTURE_HEIGHT, GL_RG16F, GL_RG, GL_FLOAT);
@@ -571,14 +574,15 @@ int main()
 		glActiveTexture(GL_TEXTURE0);
 		SSRTMipMapTexture.generateMipmap();
 		glBindTexture(GL_TEXTURE_2D, SSRTMipMapTexture.id);
-		for (GLint i = 1; i < mipMapLevel; i++)
+		for (GLint i = 1; i <= mipMapLevel; i++)
 		{
-			GLuint currentWidth = SCREEN_WIDTH >> i, currentHeight = SCREEN_HEIGHT >> i;
+			GLuint currentWidth = GBUFFER_WIDTH >> i, currentHeight = GBUFFER_HEIGHT >> i;
 			currentWidth = currentWidth > 0 ? currentWidth : 1;
 			currentHeight = currentHeight > 0 ? currentHeight : 1;
 			SSRTGenLevelMapShader.setVec2("viewPort", glm::vec2(currentWidth, currentHeight));
 			SSRTGenLevelMapShader.setInt("lastLevel", i - 1);
-			glViewport(0, 0, currentWidth, currentHeight);
+			SSRTMipMapBuffer.bufferStorage(currentWidth, currentHeight, GL_DEPTH24_STENCIL8);
+			SSRTMipMapBuffer.use();
 			screenRenderModel.Draw(SSRTGenLevelMapShader);
 		}
 
@@ -718,7 +722,7 @@ int main()
 		glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//screenRenderModel.Draw(intermediateTexture, 0, textureShader);
+		//screenRenderModel.Draw(SSRTMipMapTexture, 5, textureShader);
 
 		SSRTShader.use();
 		glActiveTexture(GL_TEXTURE0);

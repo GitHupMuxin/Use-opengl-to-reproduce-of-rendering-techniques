@@ -20,6 +20,7 @@ void main()
 	//FragColor = vec4(pow(unPack(texelFetch(Texture, currentCoord, level)), 64));
 	//FragColor = vec4(pow(texelFetch(Texture, currentCoord, level).r, 64));
 	FragColor = vec4(textureLod(Texture, texCoord, level)); 
+	FragColor = vec4(pow(textureLod(Texture, texCoord, level).r, 64)); 
 	//FragColor =	vec4(unPack(texelFetch(Texture, currentCoord, level)));;
 }
 

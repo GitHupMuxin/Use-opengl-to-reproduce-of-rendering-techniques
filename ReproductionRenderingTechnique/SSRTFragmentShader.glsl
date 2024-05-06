@@ -68,11 +68,9 @@ float getViewDepthBuffer(ivec2 uv)
 	return texelFetch(gViewDepthBuffer, uv, 0).r;
 }
 
-float getMipMapDepth(vec2 uv, int level)
+float getMipMapDepth(vec2 uv, float level)
 {
-	ivec2 texSize = textureSize(MipMap, level);
-	ivec2 UV = ivec2(texSize * uv);
-	return texelFetch(MipMap, UV, level).r;
+	return textureLod(MipMap, uv, level).r;
 }
 
 float getMipMapDepth(ivec2 uv, int level)
@@ -120,13 +118,7 @@ vec3 getNormal(vec2 uv)
 vec3 getPos(vec2 uv)
 {
 	return vec3(texture(gPosBuffer, uv));
-}
-
-vec3 getPos(ivec2 uv)
-{
-	vec2 p = vec2(uv) / SCREEN_SIZE;
-	return vec3(texture(gPosBuffer, p));
-}
+} 
 
 vec3 getViewSpacePos(vec2 uv)
 {
@@ -485,16 +477,14 @@ vec2 getCellId(vec2 uv, vec2 cellCount)
 	return floor(uv * cellCount);
 }
 
-vec2 getCellCount(float level)
+vec2 getCellCount(sampler2D t, float level)
 {
-	return SCREEN_SIZE / exp2(level);
+	vec2 size = textureSize(t, int(level));
+	return size / (level > 0.0 ? exp2(level): 1.0);
 }
 
-bool isSameCell(vec2 cellIdOne, vec2 cellIdTwo)
-{
-	ivec2 cell0 = ivec2(cellIdOne);
-	ivec2 cell1 = ivec2(cellIdTwo);
-	return cell0.x == cell1.x && cell0.y == cell1.y;
+bool crossedCellBoundary(vec2 oldCellIdx,vec2 newCellIdx){
+    return (oldCellIdx.x!=newCellIdx.x)||(oldCellIdx.y!=newCellIdx.y);
 }
 
 vec3 getIntersection(vec3 oir, vec3 dir, vec2 cellId, vec2 cellCount, vec2 dirStep, vec2 dirOffset)
@@ -514,68 +504,80 @@ vec3 tranceRay(vec3 oir, vec3 dir, float t)
 
 bool rayMatchWitMipMap(vec3 oir, vec3 dir, vec3 oirNormal, out vec3 hitPos)
 {
-	float scale = 10.0f;
 	vec3 starPos = oir;
-	vec3 endPos = oir + dir * scale;
+	vec3 endPos = oir + dir * 100;
+
 	vec4 V0 = V * vec4(starPos, 1.0f), V1 = V * vec4(endPos, 1.0f);
 	vec4 H0 = P * V0, H1 = P * V1;
-	vec3 P0 = (H0 / H0.w).xyz * 0.5 + 0.5, P1 = (H1 / H1.w).xyz * 0.5 + 0.5;
+	vec3 P0 = (H0.xyz / H0.w) * 0.5 + 0.5, P1 = (H1.xyz / H1.w) * 0.5 + 0.5;
 
-	int level = 0;
-	vec3 ray = P0;
+	vec3 start = P0;
 	vec3 rayDir = normalize(P1 - P0);
-	vec3 vZ = rayDir / rayDir.z;
 
-	vec2 hiZSize = getCellCount(level);
-	//vec2 dirStep = vec2(sign(d.x), sign(d.y));
-	vec2 dirStep = vec2(rayDir.x >= 0 ? 1.0 : -1.0, rayDir.y >= 0 ? 1.0 : -1.0);
-	vec2 dirOffset = dirStep * 0.00001;
-	dirStep = clamp(dirStep, vec2(0.0), vec2(1.0));
+	float maxTraceX = rayDir.x >= 0 ? (1-start.x)/rayDir.x:-start.x/rayDir.x;
+    float maxTraceY = rayDir.y >= 0 ? (1-start.y)/rayDir.y:-start.y/rayDir.y;
+    float maxTraceZ = rayDir.z >= 0 ? (1-start.z)/rayDir.z:-start.z/rayDir.z;
+    float maxTraceDistance = min(maxTraceX,min(maxTraceY,maxTraceZ));
 
-	vec2 nowCellId = getCellId(ray.xy, hiZSize);
-	ray = getIntersection(ray, rayDir, nowCellId, hiZSize, dirStep, dirOffset);//先trace到当前格子
+	vec2 crossStep = vec2(rayDir.x >= 0 ? 1: -1, rayDir.y >= 0 ? 1 : -1);
+    vec2 crossOffset = crossStep / vec2(2048) / 128;
+    crossStep = clamp(crossStep,0.0,1.0);
 
-	while (level >= 0)
-	{
-		 vec2 currentCellCount = getCellCount(level);
-		 vec2 oldCellId = getCellId(ray.xy, currentCellCount);
+    vec3 ray = start;
+    float minZ = ray.z;
+    float maxZ = ray.z+rayDir.z*maxTraceDistance;
+    float deltaZ = (maxZ-minZ);
 
-		 float minZ = getMipMapDepth(ray.xy, level);
-		 vec3 tempRay = ray;
-		 if (rayDir.z > 0)
-		 {
-			float stepRay = minZ - ray.z;
-			tempRay = stepRay > 0 ? ray + vZ * stepRay : tempRay;//以当前格子的深度为步进进行trace
-			vec2 newCellId = getCellId(tempRay.xy, currentCellCount);
-			if (!isSameCell(oldCellId, newCellId))//如果来到下一个格子
-			{
-				tempRay = getIntersection(ray, rayDir, oldCellId, currentCellCount, dirStep, dirOffset);
-				level = min(maxLevel, level + 2);
-				//走一个step并level + 1(循环末尾有level--)
-			}
-			else 
-			{
-				/*
-				if (level == 1 && abs(stepRay) > 0.00001) //还是同一个格子
-				{
-					tempP = getIntersection(P, Dir, oldCellId, currentCellCount, dirStep, dirOffset);
-					level = 2;
-					//走一个step level不变
-				}
-				*/
-			}
-		 }
-		 else if (ray.z < minZ)//如果没有hit
-		 {
-			tempRay = getIntersection(ray, rayDir, oldCellId, currentCellCount, dirStep, dirOffset);
-			level = min(maxLevel, level + 2);
-			//走一个step并level + 1(循环末尾有level--)
-		 }
-		 ray = tempRay;
-		 level--;
-	}
-	hitPos = getPos(ray.xy);
-	return true;
+    vec3 o = ray;
+    vec3 d = rayDir*maxTraceDistance;
+
+    int startLevel = 2;
+    int stopLevel = 0;
+    vec2 startCellCount = getCellCount(MipMap, startLevel);
+
+
+    vec2 rayCell = getCellId(ray.xy,startCellCount);
+    ray = getIntersection(o, d, rayCell, startCellCount, crossStep, crossOffset*64);
+
+    int level = 0;
+    int iter = 0;
+    bool isBackwardRay = rayDir.z < 0;
+    
+    float Dir = isBackwardRay ? -1 : 1;
+
+	const float MAX_THICKNESS = 0.0;
+
+    while(level >= stopLevel && ray.z * Dir <= maxZ * Dir && iter < 100){
+        vec2 cellCount = getCellCount(MipMap, level);
+        vec2 oldCellIdx = getCellId(ray.xy, cellCount);
+
+        float cell_minZ = getMipMapDepth(ray.xy, level);
+
+        vec3 tmpRay = ((cell_minZ > ray.z) && !isBackwardRay) ? tranceRay(o,d,(cell_minZ - minZ) / deltaZ) : ray;
+
+        vec2 newCellIdx = getCellId(tmpRay.xy, cellCount);
+
+        float thickness = level == 0 ? (ray.z - cell_minZ) : 0;
+        bool crossed  = (isBackwardRay && (cell_minZ > ray.z))||(thickness > MAX_THICKNESS)|| crossedCellBoundary(oldCellIdx, newCellIdx);
+
+        ray = crossed ? getIntersection(o, d, oldCellIdx, cellCount, crossStep, crossOffset):tmpRay;
+        level = crossed ? min(maxLevel, level + 1) : level - 1;
+        ++iter;
+
+    }
+    bool intersected = (level < stopLevel);
+    hitPos = getPos(ray.xy);
+	
+    return intersected;
+}
+
+vec3 mipmapTraceRay(vec3 oir, vec3 dir, vec2 nowCell, vec2 cellCount, vec2 dirStep, vec2 dirOffset)
+{
+	vec2 nextPos = nowCell + dirStep;
+	nextPos /= cellCount;
+	nextPos += dirOffset;
+	vec2 t = (nextPos - oir.xy) / dir.xy;
+	return tranceRay(oir, dir, min(t.x, t.y));
 }
 
 bool rayMatchWitMipMapMy(vec3 oir, vec3 dir, vec3 oirNormal, out vec3 hitPos)
@@ -586,53 +588,56 @@ bool rayMatchWitMipMapMy(vec3 oir, vec3 dir, vec3 oirNormal, out vec3 hitPos)
 	vec4 V0 = V * vec4(starPos, 1.0f), V1 = V * vec4(endPos, 1.0f);
 	vec4 H0 = P * V0, H1 = P * V1;
 	vec3 P0 = (H0.xyz / H0.w) * 0.5 + 0.5, P1 = (H1.xyz / H1.w) * 0.5 + 0.5;
+	vec3 delta = P1 - P0;
 
-	int level = 0;
-	vec3 star = P0;
-	vec3 rayDir = normalize(P1 - P0);
+	float Step = 1000;
 
-	vec2 dirStep = vec2(rayDir.x >= 0 ? 1.0 : -1.0, rayDir.y >= 0 ? 1.0 : -1.0);
-	vec2 dirOffset = dirStep * 0.00001;
-	dirStep = clamp(dirStep, 0.0, 1.0);
+	float MipMapSize = 2048;
 
-	float maxTranceX = rayDir.x >= 0.0 ? (1.0 - star.x) / rayDir.x : -star.x / rayDir.x;
-	float maxTranceY = rayDir.y >= 0.0 ? (1.0 - star.y) / rayDir.y : -star.y / rayDir.y;
-	float maxTranceZ = rayDir.z >= 0.0 ? (1.0 - star.z) / rayDir.z : -star.z / rayDir.z;
-	float maxTranceDistance = min(maxTranceX, min(maxTranceY, maxTranceZ));
+	vec3 dP = delta.x > delta.y ? delta / abs(delta.x) * 1.0 / MipMapSize : delta / abs(delta.y) * 1.0 / MipMapSize;
+	Step = min(delta.x / dP.x, delta.y / dP.y);
 
-	vec3 o = star;
-	vec3 d = rayDir * maxTranceDistance;
-	float deltaZ = rayDir.z * maxTranceDistance;
-	vec2 starCellCount = getCellCount(level);
-	vec2 starCellId = getCellId(o.xy, starCellCount);
-	
-	vec3 ray = P0;
-	int Step = 100;
+	vec3 P = P0 + dP;
 
-	float lastDepth = ray.z;
-
+	float lastDepth = P0.z;
+	float level = 0;
 
 	for (int i = 0; i < Step; i++)
 	{
-		vec2 currentCellCount = getCellCount(level);
-		vec2 currentCellId = getCellId(ray.xy, currentCellCount);
-		vec3 tempRay = getIntersection(ray, d, currentCellId, currentCellCount, dirStep, dirOffset);
+		vec3 tempP = P + dP * (level + 1);
+		if (P.x < 0 || P.x > 1 || P.y < 0 || P.y > 1 || P.z < 0 || P.z > 1)
+			return false;
+		float nowDepth = tempP.z;
+		//vec2 passDepth = vec2(lastDepth, nowDepth);
+		//passDepth = passDepth.x < passDepth.y ? passDepth : passDepth.yx;
+		//lastDepth = nowDepth;
 
-		float nowDepth = tempRay.z;
-		vec2 passDepth = vec2(lastDepth, nowDepth);
-		passDepth = passDepth.x < passDepth.y ? passDepth : passDepth.yx;
-		lastDepth = nowDepth;
+		float ssDepth = getMipMapDepth(tempP.xy, level);
 
-		float ssDepth = getMipMapDepth(tempRay.xy, level);
-
-		float difDepth = tempRay.z - ssDepth;
+		vec2 difDepth = vec2(tempP.z - ssDepth, tempP.z - ssDepth + 0.005);
 		//vec2 Thickness = vec2(ssDepth - zThickness, ssDepth);
-		if (difDepth > 0 && difDepth < 0.0001)
+		//if (between(passDepth, ssDepth))
+		if(difDepth.y > 0)
 		{
-			hitPos = vec3(getPos(tempRay.xy));
-			return true;
+			if (level > 0)
+				level--;
+			else if (difDepth.x > 0 && difDepth.x < 0.00004)
+			{
+				hitPos = vec3(getPos(P.xy));
+				return true;
+			}
+			else 
+			{
+				P = tempP;
+				level = min(level + 1, maxLevel);
+			}
+				
 		}
-		ray = tempRay;
+		else
+		{
+			P = tempP;
+			level = min(level + 1, maxLevel);
+		}
 	}
 	return false;
 }
@@ -654,13 +659,13 @@ vec3 reflectRayMatch(vec3 wordPos, vec3 viewPos, vec3 fragNormal, out vec3 hitPo
 	vec3 dir = normalize(reflect(fragWi, fragNormal));
 	//bool hit = rayMatch(wordPos, dir, fragNormal, hitPos);
 	//bool hit = rayMatch2D(wordPos, dir, fragNormal, hitPos);
-	bool hit = rayMatch2DMy(wordPos, dir, fragNormal, hitPos);
+	//bool hit = rayMatch2DMy(wordPos, dir, fragNormal, hitPos);
 	//bool hit = rayMatch3DWithDDA(wordPos, dir, fragNormal, hitPos);
-	//bool hit = rayMatch3DTextureSpace(wordPos, dir, fragNormal, hitPos);
+	bool hit = rayMatch3DTextureSpace(wordPos, dir, fragNormal, hitPos);
 
 	//还没写好
-	//bool hit = rayMatchWitMipMap(wordPos, dir, fragNormal, hitPos);
-	//bool hit = rayMatchWitMipMapMy(wordPos, dir, fragNormal, hitPos);
+	//bool hit = rayMatchWitMipMap(wordPos, dir, fragNormal, hitPos);//别人的，目前可能某些地方有问题，效果很差
+	//bool hit = rayMatchWitMipMapMy(wordPos, dir, fragNormal, hitPos);//优化没做好(分支多等等), 性能反而不如rayMatch2D
 
 	vec2 ssHitPos = GetScreenCoordinate(hitPos);
 	vec3 hitPosColor = vec3(texture(gColorBuffer, ssHitPos));
