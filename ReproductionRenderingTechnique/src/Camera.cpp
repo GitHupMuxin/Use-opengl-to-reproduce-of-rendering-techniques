@@ -1,5 +1,5 @@
-#include "Camera.h"
-#include "Tool.h"
+#include "../head/Camera.h"
+#include "../head/Tool.h"
 
 #define MY_PI 3.1415926
 

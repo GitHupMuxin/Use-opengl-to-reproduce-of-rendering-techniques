@@ -1,5 +1,5 @@
-#include "Tool.h"
-#include "Camera.h"
+#include "../head/Tool.h"
+#include "../head/Camera.h"
 
 extern Camera camera;
 

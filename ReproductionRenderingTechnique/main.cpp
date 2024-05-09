@@ -4,14 +4,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
-#include "Tool.h"
-#include "Scene.h"
-#include "UniformBlock.h"
-#include "FrameBuffer.h"
-#include "Light.h"
-#include "environmentBox.h"
-#include "material.h"
-#include "stb_image.h"
+#include "head/Tool.h"
+#include "head/Scene.h"
+#include "head/UniformBlock.h"
+#include "head/FrameBuffer.h"
+#include "head/Light.h"
+#include "head/environmentBox.h"
+#include "lodeObject/material.h"
+#include "head/stb_image.h"
 
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 1200
@@ -74,7 +74,7 @@ int main()
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 	shadowMapBuffer.BindTexture2D(shadowMapTexture);
 	shadowMapBuffer.bufferStorage(SHADOWMAP_WIDTH, SHADOWMAP_HEIGHT);
-	Shader shadowMapShader("shadowMapVertexShader.glsl", "shadowMapFragmentShader.glsl");
+	Shader shadowMapShader("shader/shadowMap/shadowMapVertexShader.glsl", "shader/shadowMap/shadowMapFragmentShader.glsl");
 
 	const GLint samples = 4;
 	FrameBufferMSAA MSAA4X4FrameBuffer(samples);
@@ -163,22 +163,22 @@ int main()
 	prtTextureFrameBuffer.BindTexture2D(LUTTexture, 0, GL_COLOR_ATTACHMENT0);
 	prtTextureFrameBuffer.bufferStorage(TEXTURE_WIDTH, TEXTURE_WIDTH, GL_DEPTH24_STENCIL8);
 
-	Shader LUTShader("LUTVertexShader.glsl", "LUTFragmentShader.glsl");
+	Shader LUTShader("shader/prt/LUTVertexShader.glsl", "shader/prt/LUTFragmentShader.glsl");
 
 
-	Shader SSRTGBufferShder("SSRTMipmapVertexShader.glsl", "SSRTMipmapFragmentShader.glsl");
+	Shader SSRTGBufferShder("shader/SSRTShader/SSRTMipmapVertexShader.glsl", "shader/SSRTShader/SSRTMipmapFragmentShader.glsl");
 
 	FrameBuffer SSRTMipMapBuffer;
-	Shader SSRTGenLevelMapShader("SSRTGenLevelMapVertexShader.glsl", "SSRTGenLevelMapFragmentShader.glsl"); 
+	Shader SSRTGenLevelMapShader("shader/SSRTShader/SSRTGenLevelMapVertexShader.glsl", "shader/SSRTShader/SSRTGenLevelMapFragmentShader.glsl"); 
 
-	Shader SSRTShader("SSRTVertexShader.glsl", "SSRTFragmentShader.glsl");
-	Shader enterMaxDepthShader("enterMaxDepthVertexShader.glsl", "enterMaxDepthFragmentShader.glsl");
-	Shader textureShader("textureVertexShader.glsl", "textureFragmentShader.glsl");
-	Shader skyboxShader("environmentBoxVertexShader.glsl", "environmentBoxFragmentShader.glsl");
+	Shader SSRTShader("shader/SSRTShader/SSRTVertexShader.glsl", "shader/SSRTShader/SSRTFragmentShader.glsl");
+	Shader enterMaxDepthShader("shader/processingTexture/enterMaxDepthVertexShader.glsl", "shader/processingTexture/enterMaxDepthFragmentShader.glsl");
+	Shader textureShader("shader/textureShader/textureVertexShader.glsl", "shader/textureShader/textureFragmentShader.glsl");
+	Shader skyboxShader("shader/environmentBoxShader/environmentBoxVertexShader.glsl", "shader/environmentBoxShader/environmentBoxFragmentShader.glsl");
 
 	ScreenRenderModel screenRenderModel;
 
-	Shader bilingPhongShader("blinnPhongVertexShader.glsl", "blinnPhongFragmentShader.glsl");
+	Shader bilingPhongShader("shader/blinnPhong/blinnPhongVertexShader.glsl", "shader/blinnPhong/blinnPhongFragmentShader.glsl");
 
 	glm::mat4x4 model;
 
@@ -226,7 +226,7 @@ int main()
 	model = glm::translate(model, glm::vec3(3.0f, -1.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(1.0f));
 	SHMary.modelMat = model;
-	SHMary.modelShader.init("SHMaryVertexShader.glsl", "SHMaryFragmentShader.glsl");
+	SHMary.modelShader.init("shader/SHMaryShader/SHMaryVertexShader.glsl", "shader/SHMaryShader/SHMaryFragmentShader.glsl");
 	scene.models.push_back(&SHMary);
 
 	SceneSHModel SHFloor;
@@ -235,7 +235,7 @@ int main()
 	model = glm::translate(model, glm::vec3(0.0f, -1.0f, -8.0));
 	model = glm::scale(model, glm::vec3(0.5f, 1.0f, 0.5f));
 	SHFloor.modelMat = model;
-	SHFloor.modelShader.init("SHFloorVertexShader.glsl", "SHFloorFragmentShader.glsl");
+	SHFloor.modelShader.init("shader/SHFloorShader/SHFloorVertexShader.glsl", "shader/SHFloorShader/SHFloorFragmentShader.glsl");
 	scene.models.push_back(&SHFloor);
 
 	SceneModel mary;
@@ -244,7 +244,7 @@ int main()
 	model = glm::translate(model, glm::vec3(-3.0f, -1.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(1.0f));
 	mary.modelMat = model;
-	mary.modelShader.init("maryVertexShader.glsl", "maryFragmentShader.glsl");
+	mary.modelShader.init("shader/mary/maryVertexShader.glsl", "shader/mary/maryFragmentShader.glsl");
 	scene.models.push_back(&mary);
 
 	SceneModel floor;
@@ -253,7 +253,7 @@ int main()
 	model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(0.5f, 1.0f, 0.5f));
 	floor.modelMat = model;
-	floor.modelShader.init("floorVertexShader.glsl", "floorFragmentShader.glsl");
+	floor.modelShader.init("shader/floor/floorVertexShader.glsl", "shader/floor/floorFragmentShader.glsl");
 	scene.models.push_back(&floor);
 
 	SceneModel ball;
@@ -262,7 +262,7 @@ int main()
 	model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(0.5f));
 	ball.modelMat = model;
-	ball.modelShader.init("ballVertexShader.glsl", "ballFragmentShader.glsl");
+	ball.modelShader.init("shader/ball/ballVertexShader.glsl", "shader/ball/ballFragmentShader.glsl");
 	scene.models.push_back(&ball);
 
 	const int ballCount = 10;
@@ -277,7 +277,7 @@ int main()
 		model = glm::translate(model, glm::vec3(leftSize + i * ballPositionDir, -1.0f, -8.0f));
 		model = glm::scale(model, glm::vec3(0.25f));
 		pbrBall[i].modelMat = model;
-		pbrBall[i].modelShader.init("pbrVertexShader.glsl", "pbrFragmentShader.glsl");
+		pbrBall[i].modelShader.init("shader/pbrShader/pbrVertexShader.glsl", "shader/pbrShader/pbrFragmentShader.glsl");
 		pbrBall[i].modelShader.use();
 		pbrBall[i].modelShader.setFloat("uRoughness", uRoughness * i);
 		scene.models.push_back(pbrBall + i);
@@ -298,7 +298,7 @@ int main()
 		model = glm::translate(model, glm::vec3(leftSize + i * ballPositionDir, -1.0f, -4.0f));
 		model = glm::scale(model, glm::vec3(0.25f));
 		kullaContyBall[i].modelMat = model;
-		kullaContyBall[i].modelShader.init("kullaContyVertexShader.glsl", "kullaContyFragmentShader.glsl");
+		kullaContyBall[i].modelShader.init("shader/kullaContyShader/kullaContyVertexShader.glsl", "shader/kullaContyShader/kullaContyFragmentShader.glsl");
 		kullaContyBall[i].modelShader.use();
 		kullaContyBall[i].modelShader.setFloat("uRoughness", uRoughness * i);
 		scene.models.push_back(kullaContyBall + i);
@@ -312,7 +312,7 @@ int main()
 		model = glm::translate(model, glm::vec3(leftSize + i * ballPositionDir, -1.0f, -12.0f));
 		model = glm::scale(model, glm::vec3(0.25f));
 		cookTorranceBall[i].modelMat = model;
-		cookTorranceBall[i].modelShader.init("cookTorranceVertexShader.glsl", "cookTorranceFragmentShader.glsl");
+		cookTorranceBall[i].modelShader.init("shader/cookTorranceShader/cookTorranceVertexShader.glsl", "shader/cookTorranceShader/cookTorranceFragmentShader.glsl");
 		cookTorranceBall[i].modelShader.use();
 		cookTorranceBall[i].modelShader.setFloat("uRoughness", uRoughness* i);
 		scene.models.push_back(cookTorranceBall + i);
@@ -326,7 +326,7 @@ int main()
 		model = glm::translate(model, glm::vec3(leftSize + i * ballPositionDir, -1.0f, -16.0f));
 		model = glm::scale(model, glm::vec3(0.25f));
 		IBLCookTorranceBall[i].modelMat = model;
-		IBLCookTorranceBall[i].modelShader.init("IBLCookTorranceVertexShader.glsl", "IBLCookTorranceFragmentShader.glsl");
+		IBLCookTorranceBall[i].modelShader.init("shader/IBL/IBLCookTorranceVertexShader.glsl", "shader/IBL/IBLCookTorranceFragmentShader.glsl");
 		IBLCookTorranceBall[i].modelShader.use();
 		IBLCookTorranceBall[i].modelShader.setFloat("uRoughness", uRoughness * i);
 		scene.models.push_back(IBLCookTorranceBall + i);
@@ -340,7 +340,7 @@ int main()
 		model = glm::translate(model, glm::vec3(leftSize + i * ballPositionDir, -1.0f, -20.0f));
 		model = glm::scale(model, glm::vec3(0.25f));
 		IBLKullaContyBall[i].modelMat = model;
-		IBLKullaContyBall[i].modelShader.init("IBLKullaContyVertexShader.glsl", "IBLKullaContyFragmentShader.glsl");
+		IBLKullaContyBall[i].modelShader.init("shader/IBL/IBLKullaContyVertexShader.glsl", "shader/IBL/IBLKullaContyFragmentShader.glsl");
 		IBLKullaContyBall[i].modelShader.use();
 		IBLKullaContyBall[i].modelShader.setFloat("uRoughness", uRoughness * i);
 		scene.models.push_back(IBLKullaContyBall + i);
@@ -773,7 +773,7 @@ void pbrPrtTexture(const GLuint& IBL, GLuint* irradianceMap, GLuint* prefilterMa
 		glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f))
 	};
 
-	Shader irradianceShader("IBLIrradianceVertexShader.glsl", "IBLIrradianceFragmentShader.glsl");
+	Shader irradianceShader("shader/IBLIrradiance/IBLIrradianceVertexShader.glsl", "shader/IBLIrradiance/IBLIrradianceFragmentShader.glsl");
 	irradianceShader.use();
 	irradianceShader.setMat4("projection", captureProjection);
 
@@ -803,7 +803,7 @@ void pbrPrtTexture(const GLuint& IBL, GLuint* irradianceMap, GLuint* prefilterMa
 		box.Draw(IBL, irradianceShader);
 	}
 
-	Shader prefilterShader("prefilterVertexShader.glsl", "prefilterFragmentShader.glsl");
+	Shader prefilterShader("shader/prefilterShader/prefilterVertexShader.glsl", "shader/prefilterShader/prefilterFragmentShader.glsl");
 	const GLuint FILTERWIDTH = 1024, FILTERHEIGHT = 1024;
 	GLuint maxMipLevels = 11;
 	GLuint& preMap = *prefilterMap;
@@ -880,7 +880,7 @@ void generateHdrTexture(const std::string& path, GLuint* IBL)
 
 
 
-		Shader hdrShader("hdrMapToSkyboxVertexShader.glsl", "hdrMapToSkyboxFragmentShader.glsl");
+		Shader hdrShader("shader/hdrMapToSkybox/hdrMapToSkyboxVertexShader.glsl", "shader/hdrMapToSkybox/hdrMapToSkyboxFragmentShader.glsl");
 		FrameBuffer fbo;
 		fbo.bufferStorage(skyBoxWidth, skyBoxHeight, GL_DEPTH24_STENCIL8);
 

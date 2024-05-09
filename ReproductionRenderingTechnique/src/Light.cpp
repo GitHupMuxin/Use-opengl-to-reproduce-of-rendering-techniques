@@ -1,4 +1,4 @@
-#include "Light.h"
+#include "../head/Light.h"
 
 
 PointLightRenderModel::PointLightRenderModel()
@@ -61,7 +61,7 @@ PointLightRenderModel::PointLightRenderModel()
     glBindVertexArray(0);
 
     this->model = glm::mat4x4(1.0f);
-    this->shader = Shader("pointLightVertexShader.glsl", "pointLightFragmentShader.glsl");
+    this->shader = Shader("shader/pointLightShader/pointLightVertexShader.glsl", "shader/pointLightShader/pointLightFragmentShader.glsl");
 }
 
 void PointLightRenderModel::Draw()

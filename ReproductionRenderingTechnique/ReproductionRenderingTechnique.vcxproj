@@ -73,18 +73,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)\head;$(VC_IncludePath);$(WindowsSDK_IncludePath);;$(SolutionDir)\shader;$(SolutionDir)\src;$(SolutionDir)\head</IncludePath>
+    <ReferencePath>$(VC_ReferencesPath_x86);</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)\head;$(VC_IncludePath);$(WindowsSDK_IncludePath);;$(SolutionDir)\shader;$(SolutionDir)\src;$(SolutionDir)\head</IncludePath>
+    <ReferencePath>$(VC_ReferencesPath_x86);</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Include</IncludePath>
+    <IncludePath>$(SolutionDir)\head;$(SolutionDir)Include;$(SolutionDir)\shader;$(SolutionDir)\src;$(SolutionDir)\head</IncludePath>
     <ReferencePath>$(SolutionDir)Lib;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Include</IncludePath>
+    <IncludePath>$(SolutionDir)\head;$(SolutionDir)Include;$(SolutionDir)\shader;$(SolutionDir)\src;$(SolutionDir)\head</IncludePath>
     <ReferencePath>$(SolutionDir)Lib;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -93,6 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -107,6 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,6 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,6 +144,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,91 +156,91 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="environmentBox.cpp" />
-    <ClCompile Include="FrameBuffer.cpp" />
-    <ClCompile Include="glad.c" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="loadObject.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\environmentBox.cpp" />
+    <ClCompile Include="src\FrameBuffer.cpp" />
+    <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\Light.cpp" />
+    <ClCompile Include="lodeObject\loadObject.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="material.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Tool.cpp" />
-    <ClCompile Include="objectMesh.cpp" />
-    <ClCompile Include="UniformBlock.cpp" />
-    <ClCompile Include="Vertex.cpp" />
+    <ClCompile Include="lodeObject\material.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\Tool.cpp" />
+    <ClCompile Include="lodeObject\objectMesh.cpp" />
+    <ClCompile Include="src\UniformBlock.cpp" />
+    <ClCompile Include="src\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="environmentBox.h" />
-    <ClInclude Include="FrameBuffer.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="loadObject.h" />
-    <ClInclude Include="material.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="object.h" />
-    <ClInclude Include="objectMesh.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Tool.h" />
-    <ClInclude Include="UniformBlock.h" />
-    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="head\Camera.h" />
+    <ClInclude Include="head\environmentBox.h" />
+    <ClInclude Include="head\FrameBuffer.h" />
+    <ClInclude Include="head\Light.h" />
+    <ClInclude Include="lodeObject\loadObject.h" />
+    <ClInclude Include="lodeObject\material.h" />
+    <ClInclude Include="head\Mesh.h" />
+    <ClInclude Include="head\Model.h" />
+    <ClInclude Include="lodeObject\object.h" />
+    <ClInclude Include="lodeObject\objectMesh.h" />
+    <ClInclude Include="head\Scene.h" />
+    <ClInclude Include="head\Shader.h" />
+    <ClInclude Include="head\stb_image.h" />
+    <ClInclude Include="head\Texture.h" />
+    <ClInclude Include="head\Tool.h" />
+    <ClInclude Include="head\UniformBlock.h" />
+    <ClInclude Include="head\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="blinnPhongFragmentShader.glsl" />
-    <None Include="blinnPhongVertexShader.glsl" />
-    <None Include="hdrMapToSkyboxFragmentShader.glsl" />
-    <None Include="hdrMapToSkyboxVertexShader.glsl" />
-    <None Include="IBLIrradianceFragmentShader.glsl" />
-    <None Include="IBLIrradianceVertexShader.glsl" />
-    <None Include="cookTorranceFragmentShader.glsl" />
-    <None Include="cookTorranceVertexShader.glsl" />
+    <None Include="shader\blinnPhong\blinnPhongFragmentShader.glsl" />
+    <None Include="shader\blinnPhong\blinnPhongVertexShader.glsl" />
+    <None Include="shader\hdrMapToSkybox\hdrMapToSkyboxFragmentShader.glsl" />
+    <None Include="shader\hdrMapToSkybox\hdrMapToSkyboxVertexShader.glsl" />
+    <None Include="shader\IBLIrradiance\IBLIrradianceFragmentShader.glsl" />
+    <None Include="shader\IBLIrradiance\IBLIrradianceVertexShader.glsl" />
+    <None Include="shader\cookTorranceShader\cookTorranceFragmentShader.glsl" />
+    <None Include="shader\cookTorranceShader\cookTorranceVertexShader.glsl" />
     <None Include="cpp.hint" />
-    <None Include="enterMaxDepthFragmentShader.glsl" />
-    <None Include="enterMaxDepthVertexShader.glsl" />
-    <None Include="environmentBoxFragmentShader.glsl" />
-    <None Include="environmentBoxVertexShader.glsl" />
-    <None Include="floorFragmentShader.glsl" />
-    <None Include="floorVertexShader.glsl" />
-    <None Include="ballFragmentShader.glsl" />
-    <None Include="ballVertexShader.glsl" />
-    <None Include="IBLCookTorranceFragmentShader.glsl" />
-    <None Include="IBLCookTorranceVertexShader.glsl" />
-    <None Include="IBLKullaContyFragmentShader.glsl" />
-    <None Include="IBLKullaContyVertexShader.glsl" />
-    <None Include="kullaContyFragmentShader.glsl" />
-    <None Include="kullaContyVertexShader.glsl" />
-    <None Include="LUTFragmentShader.glsl" />
-    <None Include="LUTVertexShader.glsl" />
-    <None Include="maryFragmentShader.glsl" />
-    <None Include="maryVertexShader.glsl" />
-    <None Include="pbrFragmentShader.glsl" />
-    <None Include="pbrVertexShader.glsl" />
-    <None Include="pointLightFragmentShader.glsl" />
-    <None Include="pointLightVertexShader.glsl" />
-    <None Include="prefilterFragmentShader.glsl" />
-    <None Include="prefilterVertexShader.glsl" />
-    <None Include="shadowMapFragmentShader.glsl" />
-    <None Include="shadowMapVertexShader.glsl" />
-    <None Include="SHFloorFragmentShader.glsl" />
-    <None Include="SHFloorVertexShader.glsl" />
-    <None Include="SHMaryFragmentShader.glsl" />
-    <None Include="SHMaryVertexShader.glsl" />
-    <None Include="SSRTFragmentShader.glsl" />
-    <None Include="SSRTGenLevelMapFragmentShader.glsl" />
-    <None Include="SSRTGenLevelMapVertexShader.glsl" />
-    <None Include="SSRTMipmapFragmentShader.glsl" />
-    <None Include="SSRTMipmapVertexShader.glsl" />
-    <None Include="SSRTVertexShader.glsl" />
-    <None Include="textureFragmentShader.glsl" />
-    <None Include="textureVertexShader.glsl" />
+    <None Include="shader\processingTexture\enterMaxDepthFragmentShader.glsl" />
+    <None Include="shader\processingTexture\enterMaxDepthVertexShader.glsl" />
+    <None Include="shader\environmentBoxShader\environmentBoxFragmentShader.glsl" />
+    <None Include="shader\environmentBoxShader\environmentBoxVertexShader.glsl" />
+    <None Include="shader\floor\floorFragmentShader.glsl" />
+    <None Include="shader\floor\floorVertexShader.glsl" />
+    <None Include="shader\ball\ballFragmentShader.glsl" />
+    <None Include="shader\ball\ballVertexShader.glsl" />
+    <None Include="shader\IBL\IBLCookTorranceFragmentShader.glsl" />
+    <None Include="shader\IBL\IBLCookTorranceVertexShader.glsl" />
+    <None Include="shader\IBL\IBLKullaContyFragmentShader.glsl" />
+    <None Include="shader\IBL\IBLKullaContyVertexShader.glsl" />
+    <None Include="shader\kullaContyShader\kullaContyFragmentShader.glsl" />
+    <None Include="shader\kullaContyShader\kullaContyVertexShader.glsl" />
+    <None Include="shader\prt\LUTFragmentShader.glsl" />
+    <None Include="shader\prt\LUTVertexShader.glsl" />
+    <None Include="shader\mary\maryFragmentShader.glsl" />
+    <None Include="shader\mary\maryVertexShader.glsl" />
+    <None Include="shader\pbrShader\pbrFragmentShader.glsl" />
+    <None Include="shader\pbrShader\pbrVertexShader.glsl" />
+    <None Include="shader\pointLightShader\pointLightFragmentShader.glsl" />
+    <None Include="shader\pointLightShader\pointLightVertexShader.glsl" />
+    <None Include="shader\prefilterShader\prefilterFragmentShader.glsl" />
+    <None Include="shader\prefilterShader\prefilterVertexShader.glsl" />
+    <None Include="shader\shadowMap\shadowMapFragmentShader.glsl" />
+    <None Include="shader\shadowMap\shadowMapVertexShader.glsl" />
+    <None Include="shader\SHFloorShader\SHFloorFragmentShader.glsl" />
+    <None Include="shader\SHFloorShader\SHFloorVertexShader.glsl" />
+    <None Include="shader\SHMaryShader\SHMaryFragmentShader.glsl" />
+    <None Include="shader\SHMaryShader\SHMaryVertexShader.glsl" />
+    <None Include="shader\SSRTMipmapShader\SSRTFragmentShader.glsl" />
+    <None Include="shader\SSRTMipmapShader\SSRTGenLevelMapFragmentShader.glsl" />
+    <None Include="shader\SSRTMipmapShader\SSRTGenLevelMapVertexShader.glsl" />
+    <None Include="shader\SSRTMipmapShader\SSRTMipmapFragmentShader.glsl" />
+    <None Include="shader\SSRTMipmapShader\SSRTMipmapVertexShader.glsl" />
+    <None Include="shader\SSRTMipmapShader\SSRTVertexShader.glsl" />
+    <None Include="shader\textureShader\textureFragmentShader.glsl" />
+    <None Include="shader\textureShader\textureVertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

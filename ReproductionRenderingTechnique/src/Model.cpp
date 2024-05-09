@@ -1,9 +1,9 @@
 #include <fstream>
 #include <sstream>
 #include <regex>
-#include "Model.h"
+#include "../head/Model.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "../head/stb_image.h"
 
 
 Model::Model() { }

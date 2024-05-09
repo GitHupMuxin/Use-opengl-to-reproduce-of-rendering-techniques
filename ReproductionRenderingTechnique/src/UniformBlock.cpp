@@ -1,4 +1,4 @@
-#include "UniformBlock.h"
+#include "../head/UniformBlock.h"
 
 GLuint UniformBlock::blockIndex = 0;
 

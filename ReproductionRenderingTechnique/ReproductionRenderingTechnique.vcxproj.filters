@@ -90,249 +90,249 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="glad.c">
+    <ClCompile Include="src\glad.c">
       <Filter>头文件\include</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Tool.cpp">
+    <ClCompile Include="src\Tool.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
+    <ClCompile Include="src\Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
+    <ClCompile Include="src\Mesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
+    <ClCompile Include="src\Model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="src\Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
+    <ClCompile Include="src\Scene.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Light.cpp">
+    <ClCompile Include="src\Light.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="FrameBuffer.cpp">
+    <ClCompile Include="src\FrameBuffer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
+    <ClCompile Include="src\Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="UniformBlock.cpp">
+    <ClCompile Include="src\UniformBlock.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Vertex.cpp">
+    <ClCompile Include="src\Vertex.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="environmentBox.cpp">
+    <ClCompile Include="src\environmentBox.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="material.cpp">
+    <ClCompile Include="lodeObject\material.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="loadObject.cpp">
+    <ClCompile Include="lodeObject\loadObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="objectMesh.cpp">
+    <ClCompile Include="lodeObject\objectMesh.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stb_image.h">
+    <ClInclude Include="head\stb_image.h">
       <Filter>头文件\include</Filter>
     </ClInclude>
-    <ClInclude Include="Tool.h">
+    <ClInclude Include="head\Tool.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="head\Shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
+    <ClInclude Include="head\Mesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
+    <ClInclude Include="head\Model.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="head\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
+    <ClInclude Include="head\Scene.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
+    <ClInclude Include="head\Light.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="FrameBuffer.h">
+    <ClInclude Include="head\FrameBuffer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
+    <ClInclude Include="head\Texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="UniformBlock.h">
+    <ClInclude Include="head\UniformBlock.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Vertex.h">
+    <ClInclude Include="head\Vertex.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="environmentBox.h">
+    <ClInclude Include="head\environmentBox.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="loadObject.h">
+    <ClInclude Include="lodeObject\loadObject.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="object.h">
+    <ClInclude Include="lodeObject\object.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="material.h">
+    <ClInclude Include="lodeObject\material.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="objectMesh.h">
+    <ClInclude Include="lodeObject\objectMesh.h">
       <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shadowMapVertexShader.glsl">
+    <None Include="shader\shadowMap\shadowMapVertexShader.glsl">
       <Filter>Shader\shadowMap</Filter>
     </None>
-    <None Include="maryVertexShader.glsl">
+    <None Include="shader\mary\maryVertexShader.glsl">
       <Filter>Shader\mary</Filter>
     </None>
-    <None Include="maryFragmentShader.glsl">
+    <None Include="shader\mary\maryFragmentShader.glsl">
       <Filter>Shader\mary</Filter>
     </None>
-    <None Include="shadowMapFragmentShader.glsl">
+    <None Include="shader\shadowMap\shadowMapFragmentShader.glsl">
       <Filter>Shader\shadowMap</Filter>
     </None>
-    <None Include="floorVertexShader.glsl">
+    <None Include="shader\floor\floorVertexShader.glsl">
       <Filter>Shader\floor</Filter>
     </None>
-    <None Include="floorFragmentShader.glsl">
+    <None Include="shader\floor\floorFragmentShader.glsl">
       <Filter>Shader\floor</Filter>
     </None>
-    <None Include="blinnPhongVertexShader.glsl">
+    <None Include="shader\blinnPhong\blinnPhongVertexShader.glsl">
       <Filter>Shader\blinnPhong</Filter>
     </None>
-    <None Include="blinnPhongFragmentShader.glsl">
+    <None Include="shader\blinnPhong\blinnPhongFragmentShader.glsl">
       <Filter>Shader\blinnPhong</Filter>
     </None>
-    <None Include="textureVertexShader.glsl">
+    <None Include="shader\textureShader\textureVertexShader.glsl">
       <Filter>Shader\textureShader</Filter>
     </None>
-    <None Include="textureFragmentShader.glsl">
+    <None Include="shader\textureShader\textureFragmentShader.glsl">
       <Filter>Shader\textureShader</Filter>
     </None>
-    <None Include="pointLightVertexShader.glsl">
+    <None Include="shader\pointLightShader\pointLightVertexShader.glsl">
       <Filter>Shader\pointLightShader</Filter>
     </None>
-    <None Include="pointLightFragmentShader.glsl">
+    <None Include="shader\pointLightShader\pointLightFragmentShader.glsl">
       <Filter>Shader\pointLightShader</Filter>
     </None>
-    <None Include="environmentBoxVertexShader.glsl">
+    <None Include="shader\environmentBoxShader\environmentBoxVertexShader.glsl">
       <Filter>Shader\environmentBoxShader</Filter>
     </None>
-    <None Include="environmentBoxFragmentShader.glsl">
+    <None Include="shader\environmentBoxShader\environmentBoxFragmentShader.glsl">
       <Filter>Shader\environmentBoxShader</Filter>
     </None>
-    <None Include="SHMaryVertexShader.glsl">
+    <None Include="shader\SHMaryShader\SHMaryVertexShader.glsl">
       <Filter>Shader\SHMaryShader</Filter>
     </None>
-    <None Include="SHMaryFragmentShader.glsl">
+    <None Include="shader\SHMaryShader\SHMaryFragmentShader.glsl">
       <Filter>Shader\SHMaryShader</Filter>
     </None>
-    <None Include="SHFloorFragmentShader.glsl">
+    <None Include="shader\SHFloorShader\SHFloorFragmentShader.glsl">
       <Filter>Shader\SHFloorShader</Filter>
     </None>
-    <None Include="SHFloorVertexShader.glsl">
+    <None Include="shader\SHFloorShader\SHFloorVertexShader.glsl">
       <Filter>Shader\SHFloorShader</Filter>
     </None>
     <None Include="cpp.hint" />
-    <None Include="enterMaxDepthVertexShader.glsl">
+    <None Include="shader\processingTexture\enterMaxDepthVertexShader.glsl">
       <Filter>Shader\processingTexture</Filter>
     </None>
-    <None Include="enterMaxDepthFragmentShader.glsl">
+    <None Include="shader\processingTexture\enterMaxDepthFragmentShader.glsl">
       <Filter>Shader\processingTexture</Filter>
     </None>
-    <None Include="SSRTVertexShader.glsl">
+    <None Include="shader\SSRTMipmapShader\SSRTVertexShader.glsl">
       <Filter>Shader\SSRTMipmapShader\SSRT</Filter>
     </None>
-    <None Include="SSRTFragmentShader.glsl">
+    <None Include="shader\SSRTMipmapShader\SSRTFragmentShader.glsl">
       <Filter>Shader\SSRTMipmapShader\SSRT</Filter>
     </None>
-    <None Include="SSRTMipmapVertexShader.glsl">
+    <None Include="shader\SSRTMipmapShader\SSRTMipmapVertexShader.glsl">
       <Filter>Shader\SSRTMipmapShader\gBufferGenShader</Filter>
     </None>
-    <None Include="SSRTMipmapFragmentShader.glsl">
+    <None Include="shader\SSRTMipmapShader\SSRTMipmapFragmentShader.glsl">
       <Filter>Shader\SSRTMipmapShader\gBufferGenShader</Filter>
     </None>
-    <None Include="SSRTGenLevelMapVertexShader.glsl">
+    <None Include="shader\SSRTMipmapShader\SSRTGenLevelMapVertexShader.glsl">
       <Filter>Shader\SSRTMipmapShader\gBufferGenShader</Filter>
     </None>
-    <None Include="SSRTGenLevelMapFragmentShader.glsl">
+    <None Include="shader\SSRTMipmapShader\SSRTGenLevelMapFragmentShader.glsl">
       <Filter>Shader\SSRTMipmapShader\gBufferGenShader</Filter>
     </None>
-    <None Include="ballVertexShader.glsl">
+    <None Include="shader\ball\ballVertexShader.glsl">
       <Filter>Shader\ball</Filter>
     </None>
-    <None Include="ballFragmentShader.glsl">
+    <None Include="shader\ball\ballFragmentShader.glsl">
       <Filter>Shader\ball</Filter>
     </None>
-    <None Include="kullaContyVertexShader.glsl">
+    <None Include="shader\kullaContyShader\kullaContyVertexShader.glsl">
       <Filter>Shader\kullaContyShader</Filter>
     </None>
-    <None Include="kullaContyFragmentShader.glsl">
+    <None Include="shader\kullaContyShader\kullaContyFragmentShader.glsl">
       <Filter>Shader\kullaContyShader</Filter>
     </None>
-    <None Include="pbrVertexShader.glsl">
+    <None Include="shader\pbrShader\pbrVertexShader.glsl">
       <Filter>Shader\pbrShader</Filter>
     </None>
-    <None Include="pbrFragmentShader.glsl">
+    <None Include="shader\pbrShader\pbrFragmentShader.glsl">
       <Filter>Shader\pbrShader</Filter>
     </None>
-    <None Include="cookTorranceFragmentShader.glsl">
+    <None Include="shader\cookTorranceShader\cookTorranceFragmentShader.glsl">
       <Filter>Shader\cookTorranceShader</Filter>
     </None>
-    <None Include="cookTorranceVertexShader.glsl">
+    <None Include="shader\cookTorranceShader\cookTorranceVertexShader.glsl">
       <Filter>Shader\cookTorranceShader</Filter>
     </None>
-    <None Include="LUTVertexShader.glsl">
+    <None Include="shader\prt\LUTVertexShader.glsl">
       <Filter>Shader\prt</Filter>
     </None>
-    <None Include="LUTFragmentShader.glsl">
+    <None Include="shader\prt\LUTFragmentShader.glsl">
       <Filter>Shader\prt</Filter>
     </None>
-    <None Include="IBLCookTorranceVertexShader.glsl">
+    <None Include="shader\IBL\IBLCookTorranceVertexShader.glsl">
       <Filter>Shader\IBL</Filter>
     </None>
-    <None Include="IBLCookTorranceFragmentShader.glsl">
+    <None Include="shader\IBL\IBLCookTorranceFragmentShader.glsl">
       <Filter>Shader\IBL</Filter>
     </None>
-    <None Include="IBLIrradianceVertexShader.glsl">
+    <None Include="shader\IBLIrradiance\IBLIrradianceVertexShader.glsl">
       <Filter>Shader\IBLIrradiance</Filter>
     </None>
-    <None Include="IBLIrradianceFragmentShader.glsl">
+    <None Include="shader\IBLIrradiance\IBLIrradianceFragmentShader.glsl">
       <Filter>Shader\IBLIrradiance</Filter>
     </None>
-    <None Include="prefilterVertexShader.glsl">
+    <None Include="shader\prefilterShader\prefilterVertexShader.glsl">
       <Filter>Shader\prefilterShader</Filter>
     </None>
-    <None Include="prefilterFragmentShader.glsl">
+    <None Include="shader\prefilterShader\prefilterFragmentShader.glsl">
       <Filter>Shader\prefilterShader</Filter>
     </None>
-    <None Include="IBLKullaContyVertexShader.glsl">
+    <None Include="shader\IBL\IBLKullaContyVertexShader.glsl">
       <Filter>Shader\IBL</Filter>
     </None>
-    <None Include="IBLKullaContyFragmentShader.glsl">
+    <None Include="shader\IBL\IBLKullaContyFragmentShader.glsl">
       <Filter>Shader\IBL</Filter>
     </None>
-    <None Include="hdrMapToSkyboxVertexShader.glsl">
+    <None Include="shader\hdrMapToSkybox\hdrMapToSkyboxVertexShader.glsl">
       <Filter>Shader\hdrMapToSkybox</Filter>
     </None>
-    <None Include="hdrMapToSkyboxFragmentShader.glsl">
+    <None Include="shader\hdrMapToSkybox\hdrMapToSkyboxFragmentShader.glsl">
       <Filter>Shader\hdrMapToSkybox</Filter>
     </None>
   </ItemGroup>

@@ -2,8 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include <regex>
-#include "environmentBox.h"
-#include "stb_image.h"
+#include "../head/environmentBox.h"
+#include "../head/stb_image.h"
 
 BOXModel::BOXModel()
 {
@@ -89,7 +89,7 @@ void BOXModel::render()
 
 EnvironmentBox::EnvironmentBox()
 {
-	this->shader.init("environmentBoxVertexShader.glsl", "environmentBoxFragmentShader.glsl");
+	this->shader.init("shader/environmentBoxShader/environmentBoxVertexShader.glsl", "shader/environmentBoxShader/environmentBoxFragmentShader.glsl");
 }
 
 void EnvironmentBox::generateMipmap()
